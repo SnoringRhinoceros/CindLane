@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
+import cindLaneLogo from '/cind_lane_logo.png';
 
 const Navbar = () => {
   return (
-    <nav className="bg-blue-600 text-white p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">My App</h1>
-        <ul className="flex space-x-4">
-          <li>
-            <Link to="/" className="hover:underline">Home</Link>
-          </li>
+    <nav className="text-accent bg-primary p-4 shadow-md">
+      <div className="container mx-auto flex items-center space-x-6">
+        <Link to="/" className="flex items-center space-x-4">
+          <img src={cindLaneLogo} alt="CindLane Logo" className="w-10 h-10" />
+          <h1 className="text-xl font-bold">CindLane</h1>
+        </Link>
+        
+        <ul className="flex items-center space-x-6">
           <li>
             <Link to="/draft" className="hover:underline">Draft</Link>
           </li>
