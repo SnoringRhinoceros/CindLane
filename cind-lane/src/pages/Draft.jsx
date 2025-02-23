@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SearchBar from "../components/Searchbar";
-import data from "../data.json"; // Adjust path if needed
+import data from "../data.json";
 import TeamBox from "../components/TeamBox";
 
 function Draft() {
@@ -31,7 +31,7 @@ function Draft() {
                 </div>
 
                 {/* Center Stats */}
-                <div className="w-full flex flex-col items-center justify-center overflow-hidden border-2 border-l-0">
+                <div className="w-full max-w-4xl min-h-[80vh] flex flex-col md:flex-row items-center justify-center p-8 rounded-lg shadow-lg bg-gray-200">
                     {results ? (
                         <div className="text-center flex flex-col w-full h-full">
                             <h2 className="text-lg font-semibold text-primary">{results.player}'s Pokémon Stats</h2>
