@@ -7,15 +7,17 @@ import './App.css';
 
 function App() {
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-background h-screen flex flex-col overflow-hidden">
       <Router>
-        <Navbar />
-        <div className="p-4">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/draft" element={<Draft />} />
-            <Route path="/account" element={<Account />} />
-          </Routes>
+        <div className="flex flex-col flex-grow h-full overflow-hidden">
+          <Navbar />
+          <div className="flex-grow overflow-hidden">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/draft" element={<Draft />} />
+              <Route path="/account" element={<Account />} />
+            </Routes>
+          </div>
         </div>
       </Router>
     </div>
