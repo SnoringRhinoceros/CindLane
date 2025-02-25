@@ -1,9 +1,9 @@
 
 
-function DraftTab() {
+function DraftTab({ text }) {
     return (
         <div>
-            <button className="text-primary p-2 border">Draft</button>
+            <button className="text-primary p-2 border">{text}</button>
         </div>
     )
 }

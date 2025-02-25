@@ -11,7 +11,7 @@ export default function TeamBox( searchResults ) {
 
     useEffect(() => {
         if (results.searchResults) {
-            if (playerList.length < 4) {
+            if (playerList.length < 5) {
                 setPlayerList([...playerList, results.searchResults.player]);
             }
         }
@@ -23,6 +23,7 @@ export default function TeamBox( searchResults ) {
             <PlayerBox playerName={playerList.length > 1 ? playerList[1] : ""} placeHolderText={"Pick 2"}/>
             <PlayerBox playerName={playerList.length > 2 ? playerList[2] : ""} placeHolderText={"Pick 3"}/>
             <PlayerBox playerName={playerList.length > 3 ? playerList[3] : ""} placeHolderText={"Pick 4"}/>
+            <PlayerBox playerName={playerList.length > 4 ? playerList[4] : ""} placeHolderText={"Pick 5"}/>
         </div>
     );
 }
