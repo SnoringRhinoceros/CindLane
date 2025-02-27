@@ -19,7 +19,7 @@ export default function SearchBar({ onSearch }) {
         </svg>
         <input
           type="text"
-          placeholder="Search Player Name"
+          placeholder="Player Name or Pokemon Name"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="pl-10 py-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-text-accent"

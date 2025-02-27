@@ -6,6 +6,7 @@ import DraftTabPanel from "../components/DraftTabPanel";
 
 function Draft() {
     const [results, setResults] = useState(null);
+    const [selectedPick, setSelectedPick] = useState(1);
 
     const onSearch = (query) => {
         if (!query.trim()) {
@@ -22,17 +23,18 @@ function Draft() {
 
     return (
         <div className="h-full flex flex-col overflow-hidden">
-            <div className="flex items-center justify-center p-4">
-                <SearchBar onSearch={onSearch} />
-            </div>
 
             <div className="flex flex-grow w-full overflow-hidden">
                 <div className="w-1/4 bg-background flex items-center justify-center">
                     <TeamBox searchResults={results} />
                 </div>
-
-                <DraftTabPanel results={results}></DraftTabPanel>
-            
+                
+                <div className="flex flex-col h-full w-full" >
+                    <div className="flex items-center justify-center p-4">
+                        <SearchBar onSearch={onSearch} />
+                    </div>
+                    <DraftTabPanel results={results} selectedPick={selectedPick}></DraftTabPanel>
+                </div>
 
                 {/* <div className="w-1/4 bg-background flex items-center justify-center">
                     <TeamBox />
