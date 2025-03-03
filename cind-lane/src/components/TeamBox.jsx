@@ -1,33 +1,34 @@
 import PlayerBox from "./PlayerBox";
 import { useEffect, useState } from "react";
 
-export default function TeamBox( searchResults ) {
-    const [playerList, setPlayerList] = useState([]);
-    const [results, setResults] = useState(searchResults);
-    const [selectedIndex, setSelectedIndex] = useState(0);
+const TOTAL_PLAYERS = 5
+
+export default function TeamBox({ searchResults, selectedPick, setSelectedPick }) {    
+    const [playerList, setPlayerList] = useState(Array(TOTAL_PLAYERS).fill(""));
+    console.log(playerList)
 
     useEffect(() => {
-        setResults(searchResults);
-    }, [searchResults]);
-
-    useEffect(() => {
-        if (results.searchResults) {
-            if (playerList.length < 5) {
-                setPlayerList([...playerList, results.searchResults.player]);
-            }
+        if (searchResults) {
+            setPlayerList((prevList) =>
+            {
+                const newList = [...prevList]
+                newList[selectedPick] = searchResults.player
+                return newList
+             });
+            setSelectedPick((prevSelected) => prevSelected + 1 < TOTAL_PLAYERS ? prevSelected + 1 : 0);
         }
-    }, [results]);
+    }, [searchResults]);
 
     return (
         <div className="flex flex-col h-full w-full justify-between items-center">
-            {Array.from({ length: 5 }, (_, index) => (
+            {Array.from({ length: TOTAL_PLAYERS }, (_, index) => (
                 <PlayerBox
                 isFirst={index === 0}
-                playerName={playerList.length > index ? playerList[index] : ""}
-                    placeHolderText={`Pick ${index + 1}`}
-                    pokemonName={"Pikachu"}
-                isSelected={selectedIndex === index}
-                onClick={() => setSelectedIndex(index)}
+                playerName={playerList[index]}
+                placeHolderText={`Pick ${index + 1}`}
+                pokemonName={"Pikachu"}
+                isSelected={selectedPick === index}
+                onClick={() => setSelectedPick(index)}
                 />
             ))}
         </div>

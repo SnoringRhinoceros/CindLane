@@ -10,7 +10,6 @@ export default function PlayerBox({ isFirst, playerName, placeHolderText, pokemo
 
     useEffect(() => {
         setPokemon(pokemonName.toLowerCase());
-        console.log(pokemonName)
     }, [pokemonName]);
 
     return (
