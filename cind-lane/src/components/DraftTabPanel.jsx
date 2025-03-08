@@ -3,20 +3,32 @@ import { useEffect, useState } from "react";
 
 
 
-function DraftTabPanel({ results, selectedPick }) {
+function DraftTabPanel({ teamResults, selectedPick }) {
 
-    const [activeTab, setActiveTab] = useState("Player");
+    const [activeTab, setActiveTab] = useState("Team");
+
+    const calculateOverallTeamWinRate = () => {
+        const teamWinRates = teamResults.map((player) => {
+            if (player && player.player && player.player.pokemon) {
+                return player.player.pokemon[0].win_rate;
+            }
+            return 0;
+        });
+
+        const totalWinRate = teamWinRates.reduce((acc, curr) => acc + curr, 0);
+        return totalWinRate / teamWinRates.length;
+    }
     
     const renderCenterContent = () => {
         if (activeTab === "Player") {
             return (
                 <div className="flex flex-col w-full h-full">
-                    {results ? (
+                    {teamResults && teamResults[selectedPick] && teamResults[selectedPick].player ? (
                             <div className="flex flex-col w-full h-full">
-                                <h2 className="text-lg font-semibold text-primary">{results.player}'s Pokémon Stats</h2>
+                                <h2 className="text-lg font-semibold text-primary">{teamResults[selectedPick].player.player}'s Pokémon Stats</h2>
                                 <div className="flex-grow w-full overflow-y-auto px-4">
                                     <ul className="mt-2 space-y-2">
-                                        {results.pokemon.map((poke, index) => (
+                                        {teamResults[selectedPick].player.pokemon.map((poke, index) => (
                                             <li key={index} className="text-sm">
                                                 <strong>{poke.name}</strong>: {poke.battles} battles, {poke.win_rate}% win rate
                                             </li>
@@ -30,16 +42,10 @@ function DraftTabPanel({ results, selectedPick }) {
                 </div>
             
             )
-        } else if (activeTab === "Pokemon") {
-            return (
-                <div>
-                    <p>Pokemon Page</p>
-                </div>
-            )
         } else if (activeTab === "Team") {
             return (
                 <div>
-                    <p>Team page</p>
+                    <p>Team overall win rate: {calculateOverallTeamWinRate()}</p>
                 </div>
             )
         } else {
@@ -64,7 +70,7 @@ function DraftTabPanel({ results, selectedPick }) {
     return (
         <div className="flex flex-col w-full h-full">
             <div className="flex flex-row">
-                {["Player", "Pokemon", "Team"].map((tab) => (
+                {["Team", "Player"].map((tab) => (
                     <DraftTab
                         text={tab}
                         handleClick={handleDraftTabClick}

@@ -9,7 +9,7 @@ export default function PlayerBox({ isFirst, playerName, placeHolderText, pokemo
     }, [playerName]);
 
     useEffect(() => {
-        setPokemon(pokemonName.toLowerCase());
+        setPokemon(pokemonName.toLowerCase().replace(/\s+/g, '-'));
     }, [pokemonName]);
 
     return (
