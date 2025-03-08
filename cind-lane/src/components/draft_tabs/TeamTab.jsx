@@ -1,3 +1,5 @@
+import MiniStatBoxContainer from "../MiniStatBoxContainer";
+
 function TeamTab({ teamResults }) {
 
     const calculateOverallTeamWinRate = () => {
@@ -12,9 +14,17 @@ function TeamTab({ teamResults }) {
         return totalWinRate / teamWinRates.length;
     }
 
+    const statsToShow = [
+        { text: "Users", stat: "1.2K", description: "Total registered users" },
+        { text: "Revenue", stat: "$12K", description: "Monthly revenue" },
+        { text: "Conversions", stat: "8.5%", description: "Conversion rate" },
+        { text: "Bounce Rate", stat: "42%", description: "Percentage of users leaving" },
+      ];
+      
+
     return (
         <div>
-            <p>Team overall win rate: {calculateOverallTeamWinRate(teamResults)}%</p>
+            <MiniStatBoxContainer stats={statsToShow} />
         </div>
     )
 };

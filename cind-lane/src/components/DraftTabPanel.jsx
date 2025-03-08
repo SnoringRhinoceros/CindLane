@@ -1,5 +1,4 @@
 import DraftTab from "../components/DraftTab";
-import { useEffect, useState } from "react";
 import { useDraftTab } from "../hooks/useDraftTab";
 import TeamTab from "./draft_tabs/TeamTab";
 import PlayerTab from "./draft_tabs/PlayerTab";
