@@ -1,11 +1,12 @@
 import MiniStatBoxContainer from "../MiniStatBoxContainer";
 
 function TeamTab({ teamResults }) {
-
+    
     const calculateOverallTeamWinRate = () => {
         const teamWinRates = teamResults.map((player) => {
+            console.log(player)
             if (player && player.player && player.player.pokemon) {
-                return player.player.pokemon[0].win_rate;
+                return player.player.pokemon[player.player.pokemon.find(entry => entry.pokemon === player.pokemon)].pokemon.win_rate;
             }
             return 0;
         });
