@@ -4,11 +4,6 @@ import { useEffect, useState } from "react";
 const TOTAL_PLAYERS_PER_TEAMBOX = 5
 
 export default function TeamBox({ teamResults, selectedPick, setSelectedPick }) {    
-    useEffect(() => {
-        console.log(teamResults);
-    }, [teamResults]);
-
-    
     return (
         <div className="flex flex-col h-full w-full justify-between items-center">
             {Array.from({ length: TOTAL_PLAYERS_PER_TEAMBOX }, (_, index) => (

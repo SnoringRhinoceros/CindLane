@@ -3,14 +3,20 @@ import MiniStatBoxContainer from "../MiniStatBoxContainer";
 function TeamTab({ teamResults }) {
     
     const calculateOverallTeamWinRate = () => {
-        const teamWinRates = teamResults.map((player) => {
-            console.log(player)
-            if (player && player.player && player.player.pokemon) {
-                return player.player.pokemon[player.player.pokemon.find(entry => entry.pokemon === player.pokemon)].pokemon.win_rate;
+        console.log(teamResults);
+        const teamWinRates = teamResults.map((team) => {
+            if (team && team.pokemon && team.player && Array.isArray(team.player.pokemon)) {
+                for (const possiblePokemon of team.player.pokemon) {
+                    if (possiblePokemon.name === team.pokemon) {
+                        return possiblePokemon.win_rate;
+                    }
+                }
+                return 0;
             }
             return 0;
+            
         });
-    
+        console.log(teamWinRates);
         const totalWinRate = teamWinRates.reduce((acc, curr) => acc + curr, 0);
         return totalWinRate / teamWinRates.length;
     }
