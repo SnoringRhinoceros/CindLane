@@ -11,7 +11,7 @@ export default function TeamBox({ teamResults, selectedPick, setSelectedPick }) 
                 isFirst={index === 0}
                 playerName={teamResults[index] && teamResults[index].player ? teamResults[index].player.player : null}
                 placeHolderText={`Pick ${index + 1}`}
-                pokemonName={teamResults[index] && teamResults[index].pokemon ? teamResults[index].pokemon : "Pikachu"}
+                pokemonName={teamResults[index] && teamResults[index].pokemon ? teamResults[index].pokemon : "1 No Pokemon"}
                 isSelected={selectedPick === index}
                 onClick={() => setSelectedPick(index)}
                 />
