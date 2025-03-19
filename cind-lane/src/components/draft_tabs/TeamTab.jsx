@@ -4,16 +4,14 @@ function TeamTab({ teamResults }) {
     
     const calculateOverallTeamWinRate = () => {
         console.log(teamResults);
-        const teamWinRates = teamResults.map((playerBox) => {
-            if (playerBox && playerBox.player) {
-                if (playerBox.pokemon && Array.isArray(playerBox.player.pokemon)) {
-                    for (const possiblePokemon of playerBox.player.pokemon) {
-                        if (possiblePokemon.name === playerBox.pokemon) {
-                            return possiblePokemon.win_rate;
-                        }
+        const teamWinRates = teamResults.map((team) => {
+            if (team && team.pokemon && team.player && Array.isArray(team.player.pokemon)) {
+                for (const possiblePokemon of team.player.pokemon) {
+                    if (possiblePokemon.name === team.pokemon) {
+                        return possiblePokemon.win_rate;
                     }
                 }
-                return playerBox.player.win_rate;
+                return 0;
             }
             return 0;
             
@@ -24,10 +22,10 @@ function TeamTab({ teamResults }) {
     }
 
     const statsToShow = [
-        { text: "Counters", stat: "Galarian Rapidash (56%)", description: "Counter pick to your selected pick" },
-        { text: "Synergies", stat: "Alolan Ninetales and Mamoswine (70%)", description: "Shows pokemon that work well with each other" },
-        { text: "Expected Damage", stat: "493,365", description: "Expected damage the team is expected to do" },
-        { text: "Expected Healing", stat: "204,631", description: "Expected healing the team is expected to do" },
+        { text: "Users", stat: "1.2K", description: "Total registered users" },
+        { text: "Revenue", stat: "$12K", description: "Monthly revenue" },
+        { text: "Conversions", stat: "8.5%", description: "Conversion rate" },
+        { text: "Bounce Rate", stat: "42%", description: "Percentage of users leaving" },
       ];
       
 
