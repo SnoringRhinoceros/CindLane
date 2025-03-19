@@ -14,7 +14,6 @@ export default function TeamBox({ teamResults, selectedPick, setSelectedPick }) 
                 pokemonName={teamResults[index] && teamResults[index].pokemon ? teamResults[index].pokemon : "Pikachu"}
                 isSelected={selectedPick === index}
                 onClick={() => setSelectedPick(index)}
-                warning="hi"
                 />
             ))}
         </div>
