@@ -32,7 +32,7 @@ function TeamTab({ teamResults }) {
       
 
     return (
-        <div>
+        <div className="flex flex-col w-full h-full">
             <MiniStatBoxContainer stats={[{ text: "Overall Chance of Winning", stat: calculateOverallTeamWinRate() + "%", description: "Expected win rate of this team considering all variables"}]} />
             <MiniStatBoxContainer stats={statsToShow} />
         </div>

@@ -12,25 +12,32 @@ const PlayerTab = ({ player }) => {
         { text: "Expected Deaths", stat: "5", description: "Expected number of deaths in one game" },
         { text: "Expected Damage", stat: "73,912", description: "Expected damage the player is expected to do" },
         { text: "Expected Healing", stat: "20,305", description: "Expected healing the player is expected to do" },
-      ];
+    ];
 
     return (
         <div className="flex flex-row w-full h-full">
-            <div className="flex flex-col w-full h-full">
+            {/* Left Column */}
+            <div className="flex flex-col w-full h-full min-h-0">
                 <h2 className="text-lg font-semibold text-primary">
                     {player.player}'s Pokémon Stats
                 </h2>
-                <div className="flex-grow w-full overflow-y-auto px-4">
-                    <ul className="mt-2 space-y-2">
-                        {player.pokemon.map((poke, index) => (
-                            <li key={index} className="text-sm">
-                                <strong>{poke.name}</strong>: {poke.battles} battles, {poke.win_rate}% win rate
-                            </li>
-                        ))}
-                    </ul>
+                {/* Wrapping the scrollable content in a flex-grow div */}
+                <div className="flex-grow min-h-0 w-full overflow-y-auto px-4">
+                    <div className="pb-2"> {/* Ensuring no clipping at the bottom */}
+                        <ul className="mt-2 space-y-2">
+                            {player.pokemon.map((poke, index) => (
+                                <li key={index} className="text-sm">
+                                    <strong>{poke.name}</strong>: {poke.battles} battles, {poke.win_rate}% win rate
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <MiniStatBoxContainer stats={statsToShow} />
+            {/* Right Column */}
+            <div className="flex flex-col min-h-0 w-full">
+                <MiniStatBoxContainer stats={statsToShow} />
+            </div>
         </div>
     );
 };

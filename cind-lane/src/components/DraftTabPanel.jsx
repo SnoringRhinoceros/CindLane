@@ -20,7 +20,7 @@ function DraftTabPanel({ teamResults, selectedPick }) {
     }
 
     return (
-        <div className="flex flex-col w-full h-full bg-gray-200">
+        <div className="flex flex-col w-full h-full bg-gray-200 min-h-0">
             <div className="flex flex-row">
                 {["Team", "Player"].map((tab) => (
                     <DraftTab
@@ -33,8 +33,8 @@ function DraftTabPanel({ teamResults, selectedPick }) {
             </div>
             {/* Center Stats */}
             {/* Make center stats smaller: max-w-4xl min-h-[80vh] */}
-            <div className="w-full flex flex-col h-full md:flex-row items-center justify-center p-8 rounded-lg shadow-lg">
-                <div className="text-center flex flex-col w-full h-full">
+            <div className="w-full flex flex-col h-full min-h-0 md:flex-row items-center justify-center p-8 rounded-lg shadow-lg">
+                <div className="text-center flex flex-col min-h-0 w-full h-full">
                     {renderCenterContent()}
                 </div>
             </div>

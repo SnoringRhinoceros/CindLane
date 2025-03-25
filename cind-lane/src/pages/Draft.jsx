@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SearchBar from "../components/Searchbar";
-import data from "../data.json";
+import data from "../data/data.json";
 import TeamBox from "../components/TeamBox";
 import DraftTabPanel from "../components/DraftTabPanel";
 import { pokemonList } from "../data/pokemonList";
@@ -37,7 +37,7 @@ function Draft() {
         }
 
         const playerData = data.find(player =>
-            player.player.toLowerCase() === query.toLowerCase()
+            player.player === query
         );
 
         if (playerData) {

@@ -3,9 +3,9 @@ import MiniStatBox from "./MiniStatBox";
 function MiniStatBoxContainer({ stats, maxColumns = 3 }) {
   return (
     <div
-      className="grid gap-4 p-4 place-items-center"
+      className="grid gap-4 p-4 place-items-center w-full"
       style={{
-        gridTemplateColumns: stats.length === 1 ? "1fr" : `repeat(${maxColumns}, minmax(0, 1fr))`,
+        gridTemplateColumns: `repeat(auto-fit, minmax(180px, 1fr))`, // Auto-fit ensures it wraps gracefully
       }}
     >
       {stats.map((stat, index) => (

@@ -15,8 +15,6 @@ export default function PlayerBox({
             onClick={onClick}
         >
             <div className="flex flex-row items-center justify-center">
-                {playerName ? playerName : placeHolderText}
-
                 {/* Image Wrapper to Ensure No Expansion */}
                 <div className="w-16 h-16 flex items-center justify-center">
                     <img 
@@ -25,6 +23,8 @@ export default function PlayerBox({
                         alt={pokemonName}
                     />
                 </div>
+
+                {playerName ? playerName : placeHolderText}
             </div>
 
             {warning && (
