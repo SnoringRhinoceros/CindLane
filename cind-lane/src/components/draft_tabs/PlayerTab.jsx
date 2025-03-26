@@ -1,5 +1,6 @@
 import MiniStatBoxContainer from "../MiniStatBoxContainer";
 import { usePlayerStats } from '../../hooks/usePlayerStats';
+import BestPokemonBox from "../BestPokemonBox";
 
 const PlayerTab = ({ player, pokemon }) => {
     if (!player) {
@@ -18,12 +19,6 @@ const PlayerTab = ({ player, pokemon }) => {
           text: "Best Held-Items",
           stat: bestItems,
           description: "Recommended held-items for current player on this team"
-        },
-        {
-          text: "Best Pick",
-          stat: bestPokemon,
-          description: "Best pokemon for this player to play",
-          warning: bestPokemonWarning
         },
         {
           text: "Expected Kills",
@@ -68,18 +63,19 @@ const PlayerTab = ({ player, pokemon }) => {
                 </div>
             </div>
             {/* Right Column */}
-            <div className="flex flex-col min-h-0 w-full">
+        <div className="flex flex-col min-h-0 w-full">
+          <BestPokemonBox bestPokemon={bestPokemon} heldItems={bestItems.split(", ")}/>
           <MiniStatBoxContainer stats={statsToShow} />
           {performanceInsights && (
-  <div className="mb-4">
-    <strong>{pokemon} Performance:</strong>
-    <ul className="ml-4 list-disc text-sm text-gray-600">
-      <li>Compared to own average: {performanceInsights.personalPerformancePercent}% ({performanceInsights.personalPerformanceDiff >= 0 ? '+' : ''}{performanceInsights.personalPerformanceDiff} dmg)</li>
-      <li>Compared to global: {performanceInsights.globalComparisonPercent}% ({performanceInsights.globalComparisonDiff >= 0 ? '+' : ''}{performanceInsights.globalComparisonDiff} dmg)</li>
-    </ul>
-  </div>
-)}
+            <div className="mb-4">
+              <strong>{pokemon} Performance:</strong>
+              <ul className="ml-4 list-disc text-sm text-gray-600">
+                <li>Compared to own average: {performanceInsights.personalPerformancePercent}% ({performanceInsights.personalPerformanceDiff >= 0 ? '+' : ''}{performanceInsights.personalPerformanceDiff} dmg)</li>
+                <li>Compared to global: {performanceInsights.globalComparisonPercent}% ({performanceInsights.globalComparisonDiff >= 0 ? '+' : ''}{performanceInsights.globalComparisonDiff} dmg)</li>
+              </ul>
             </div>
+          )}
+          </div>
         </div>
     );
 };
