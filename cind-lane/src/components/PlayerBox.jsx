@@ -1,4 +1,7 @@
-export default function PlayerBox({ 
+import { useRef, useState, useEffect } from 'react';
+import TooltipPortal from '../portals/ToolTipPortal';
+
+function PlayerBox({ 
     isFirst, 
     playerName, 
     placeHolderText, 
@@ -7,6 +10,20 @@ export default function PlayerBox({
     onClick, 
     warning 
 }) {
+
+    const iconRef = useRef(null);
+    const [tooltipPos, setTooltipPos] = useState({ top: 0, left: 0 });
+    const [hovered, setHovered] = useState(false);
+
+    
+
+    useEffect(() => {
+    if (iconRef.current) {
+        const rect = iconRef.current.getBoundingClientRect();
+        setTooltipPos({ top: rect.top, left: rect.left });
+    }
+    }, []);
+    
     return (
         <div 
             className={`relative flex-1 w-full h-full text-primary text-center flex items-center justify-center border-2 
@@ -32,21 +49,43 @@ export default function PlayerBox({
                     <div className="relative flex items-center justify-center">
                         {/* Warning Triangle Icon */}
                         <svg 
+                            ref={iconRef}
                             xmlns="http://www.w3.org/2000/svg" 
                             viewBox="0 0 24 24" 
                             fill="currentColor" 
                             className="w-5 h-5 text-yellow-500 cursor-pointer"
+                            onMouseEnter={() => {
+                                if (iconRef.current) {
+                                    const rect = iconRef.current.getBoundingClientRect();
+                                    setTooltipPos({ top: rect.top, left: rect.left });
+                                }
+                                setHovered(true);
+                            }}
+                            onMouseLeave={() => setHovered(false)}
                         >
                             <path d="M12 2L1 21h22L12 2Zm0 3.5L20.1 19H3.9L12 5.5ZM12 16a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 12 16Zm-1-4h2v-4h-2v4Z"/>
                         </svg>
 
-                        {/* Tooltip (Appears on Hover) */}
-                        <div className="absolute left-1/2 z-60 bottom-full mb-2 w-48 -translate-x-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg">
-                            {warning}
-                        </div>
+                        {hovered && (
+                            <TooltipPortal>
+                                <div
+                                    className="fixed z-[9999] w-48 bg-black text-white text-xs p-2 rounded-lg shadow-lg pointer-events-none"
+                                    style={{
+                                        top: tooltipPos.top -65,
+                                        left: tooltipPos.left - 80
+                                    }}
+                                >
+                                    {warning}
+                                </div>
+                            </TooltipPortal>
+                        )}
+
                     </div>
                 </div>
             )}
         </div>
     );
 }
+
+
+export default PlayerBox;
