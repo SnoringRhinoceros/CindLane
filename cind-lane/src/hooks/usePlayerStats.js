@@ -58,7 +58,7 @@ export function usePlayerStats(player, pokemon) {
       bestPick = `${top.pokemon} (${Math.round(top.winRate * 100)}%)`;
 
       if (top.games < 5) {
-        bestPickWarning = `Limited data: ${top.pokemon} has only been played ${top.games} time${top.games === 1 ? '' : 's'}.`;
+        bestPickWarning = `This pick recommendation might not be accurate because of a small sample size of ${top.games} game${top.games === 1 ? '' : 's'}.`;
       }
     }
   })();
