@@ -8,7 +8,7 @@ const PlayerTab = ({ player, pokemon }) => {
         return <p className="text-gray-500">No player found.</p>;
   }    
   
-  const [currentStatFilter, setCurrentStatFilter] = useState("Recommended");
+  const [currentStatFilter, setCurrentStatFilter] = useState("Recommended Pick");
   
     const handleStatFilterClick = (stat) => {
       setCurrentStatFilter(stat);
@@ -43,13 +43,39 @@ const PlayerTab = ({ player, pokemon }) => {
           stat: expectedStats.healing,
           description: "Expected healing the player is expected to do"
         }
-      ];
+  ];
   
-      return (
-        <div className="relative flex flex-row w-full h-full">
-      
-          {/* Left Column */}
-          <div className="flex-grow min-h-0 w-full overflow-y-auto px-4">
+      const renderLeftColumn = () => {
+        if (currentStatFilter == "Recommended Pick") {
+          return (
+            <div className="flex-grow min-h-0 w-full overflow-y-auto px-4">
+              <div className="flex flex-col min-h-0 w-full">
+                <BestPokemonBox
+                  bestPokemon={bestPokemon}
+                  heldItems={bestItems.split(", ")}
+                  bestPokemonWarning={bestPokemonWarning}
+                  activeStatFilter={currentStatFilter}
+                  handleStatFilterClick={handleStatFilterClick}
+                />
+                <MiniStatBoxContainer stats={statsToShow} />
+                {performanceInsights && (
+                  <div className="mb-4">
+                    <strong>{pokemon} Performance:</strong>
+                    <ul className="ml-4 list-disc text-sm text-gray-600">
+                      <li>
+                        Compared to own average: {performanceInsights.personalPerformancePercent}% ({performanceInsights.personalPerformanceDiff >= 0 ? '+' : ''}{performanceInsights.personalPerformanceDiff} dmg)
+                      </li>
+                      <li>
+                        Compared to global: {performanceInsights.globalComparisonPercent}% ({performanceInsights.globalComparisonDiff >= 0 ? '+' : ''}{performanceInsights.globalComparisonDiff} dmg)
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )
+        } else if (currentStatFilter == "Current Pick") {
+          return (<div className="flex-grow min-h-0 w-full overflow-y-auto px-4">
             <div className="flex flex-col min-h-0 w-full">
               <BestPokemonBox
                 bestPokemon={bestPokemon}
@@ -74,6 +100,17 @@ const PlayerTab = ({ player, pokemon }) => {
               )}
             </div>
           </div>
+        )
+        } else {
+          return (<div>something went wrong</div>)
+        }
+      }
+  
+      return (
+        <div className="relative flex flex-row w-full h-full">
+      
+          {/* Left Column */}
+          {renderLeftColumn()}
           
           {/* Right Column */}
           <div className="flex flex-col w-full h-full min-h-0">

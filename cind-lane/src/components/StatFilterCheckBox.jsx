@@ -4,10 +4,10 @@ function StatFilterCheckbox({ texts, handleClick }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const handleButtonClick = () => {
+        const currentText = texts[(currentIndex+1) % texts.length];
         setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
-        const currentText = texts[currentIndex];
+        console.log(currentText);
         handleClick(currentText);
-        console.log(currentText);     
     };
 
     return (
