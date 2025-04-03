@@ -1,0 +1,1 @@
+export const held_items = ['Eject-Button', 'Fluffy-Tail', 'Full-Heal', 'Goal-Getter', 'Goal-Hacker', 'Potion', 'Shedinja-Doll', 'Slow-Smoke', 'X-Attack', 'X-Speed']

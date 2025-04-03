@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import TooltipPortal from "../portals/ToolTipPortal";
+import StatFilterCheckbox from "./StatFilterCheckbox";
 
-function BestPokemonBox({ bestPokemon, heldItems, bestPokemonWarning }) {
+function BestPokemonBox({ bestPokemon, heldItems, bestPokemonWarning, activeStatFilter, handleStatFilterClick }) {
   const pokemonName = bestPokemon.split(" (")[0];
   const pokemonWinRate = bestPokemon.split(" (")[1].slice(0, -1);
 
@@ -65,7 +66,11 @@ function BestPokemonBox({ bestPokemon, heldItems, bestPokemonWarning }) {
   >
     <path d="M12 2L1 21h22L12 2Zm0 3.5L20.1 19H3.9L12 5.5ZM12 16a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 12 16Zm-1-4h2v-4h-2v4Z" />
   </svg>
-  <p className="w-full text-center pl-8">Recommended Pick</p>
+          {/* <p className="w-full text-center pl-8">{activeStatFilter} Pick</p> */}
+          {/* Stat Filter Checkboxes (Top-Right Floating) */}
+  <div className="w-full text-center pl-8  rounded">
+            <StatFilterCheckbox texts={["Recommended Pick", "Current Pick"]} handleClick={handleStatFilterClick} />
+  </div>
 </div>
 
 
