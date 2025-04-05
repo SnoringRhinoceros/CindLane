@@ -8,6 +8,7 @@ export default function TeamBox({ teamResults, selectedPick, setSelectedPick }) 
         <div className="flex flex-col h-full w-full justify-between items-center">
             {Array.from({ length: TOTAL_PLAYERS_PER_TEAMBOX }, (_, index) => (
                 <PlayerBox
+                key={index}
                 isFirst={index === 0}
                 playerName={teamResults[index] && teamResults[index].player ? teamResults[index].player.player : null}
                 placeHolderText={`Pick ${index + 1}`}

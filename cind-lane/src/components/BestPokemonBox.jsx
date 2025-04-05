@@ -69,7 +69,7 @@ function BestPokemonBox({ bestPokemon, heldItems, bestPokemonWarning, activeStat
           {/* <p className="w-full text-center pl-8">{activeStatFilter} Pick</p> */}
           {/* Stat Filter Checkboxes (Top-Right Floating) */}
   <div className="w-full text-center pl-8  rounded">
-            <StatFilterCheckbox texts={["Recommended Pick", "Current Pick"]} handleClick={handleStatFilterClick} />
+    <StatFilterCheckbox texts={["Recommended Pick", "Current Pick"]} handleClick={handleStatFilterClick}/>
   </div>
 </div>
 
