@@ -77,6 +77,7 @@ const PlayerTab = ({ player, pokemon }) => {
         activeStatFilter={currentStatFilter}
         handleStatFilterClick={handleStatFilterClick}
         showPlaceholder={isCurrent && !pokemon}
+        selectedPokemon={pokemon}          
       />
       <MiniStatBoxContainer stats={statsToShow} />
       {performanceInsights && (
