@@ -3,7 +3,6 @@ import MiniStatBoxContainer from "../MiniStatBoxContainer";
 function TeamTab({ teamResults }) {
     
     const calculateOverallTeamWinRate = () => {
-        console.log(teamResults);
         const teamWinRates = teamResults.map((playerBox) => {
             if (playerBox && playerBox.player) {
                 if (playerBox.pokemon && Array.isArray(playerBox.player.pokemon)) {
@@ -18,7 +17,6 @@ function TeamTab({ teamResults }) {
             return 0;
             
         });
-        console.log(teamWinRates);
         const totalWinRate = teamWinRates.reduce((acc, curr) => acc + curr, 0);
         return totalWinRate / teamWinRates.length;
     }

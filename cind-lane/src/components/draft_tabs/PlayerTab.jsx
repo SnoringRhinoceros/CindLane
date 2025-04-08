@@ -1,7 +1,8 @@
 import MiniStatBoxContainer from "../MiniStatBoxContainer";
-import { usePlayerStats } from '../../hooks/usePlayerStats';
 import BestPokemonBox from "../BestPokemonBox";
 import { useEffect, useState } from "react";
+import { useRecommendedPokemonStats, usePokemonStats } from '../../hooks/usePlayerStats';
+
 
 const PlayerTab = ({ player, pokemon }) => {
     if (!player) {
@@ -15,13 +16,15 @@ const PlayerTab = ({ player, pokemon }) => {
     };
 
     const {
-        bestItems,
-        bestPokemon,
-        bestPokemonWarning,
-      expectedStats,
-        performanceInsights
-      } = usePlayerStats(player, pokemon);
+      bestPokemon,
+      bestItems,
+      bestPokemonWarning,
+      expectedStats
+    } = useRecommendedPokemonStats(player);
     
+  const currentPokemonStats = usePokemonStats(player, pokemon);
+  console.log(pokemon);
+  
       const statsToShow = [
         {
           text: "Expected Kills",
@@ -72,15 +75,15 @@ const PlayerTab = ({ player, pokemon }) => {
     <div>
       <BestPokemonBox
         bestPokemon={bestPokemon}
-        heldItems={bestItems.split(", ")}
+        heldItems={bestItems}
         bestPokemonWarning={bestPokemonWarning}
         activeStatFilter={currentStatFilter}
         handleStatFilterClick={handleStatFilterClick}
         showPlaceholder={isCurrent && !pokemon}
-        selectedPokemon={pokemon}          
+        currentPokemon={currentPokemonStats}          
       />
       <MiniStatBoxContainer stats={statsToShow} />
-      {performanceInsights && (
+      {/* {performanceInsights && (
         <div className="mb-4">
           <strong>{pokemon} Performance:</strong>
           <ul className="ml-4 list-disc text-sm text-gray-600">
@@ -96,7 +99,7 @@ const PlayerTab = ({ player, pokemon }) => {
             </li>
           </ul>
         </div>
-      )}
+      )} */}
     </div>
   )}
 </div>

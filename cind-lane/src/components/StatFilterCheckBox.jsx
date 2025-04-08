@@ -6,7 +6,6 @@ function StatFilterCheckbox({ texts, handleClick }) {
     const handleButtonClick = () => {
         const currentText = texts[(currentIndex+1) % texts.length];
         setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
-        console.log(currentText);
         handleClick(currentText);
     };
 
