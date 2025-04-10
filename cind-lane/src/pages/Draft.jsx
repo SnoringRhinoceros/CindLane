@@ -24,7 +24,7 @@ function Draft() {
                 return newList;
             });
 
-            setSelectedPick((prev) => (prev + 1 < TOTAL_PLAYERS ? prev + 1 : 0));
+            // setSelectedPick((prev) => (prev + 1 < TOTAL_PLAYERS ? prev + 1 : 0));
         }
     };
 
@@ -42,7 +42,7 @@ function Draft() {
                 return newList;
             });
 
-            setSelectedPick((prev) => (prev + 1 < TOTAL_PLAYERS ? prev + 1 : 0));
+            // setSelectedPick((prev) => (prev + 1 < TOTAL_PLAYERS ? prev + 1 : 0));
         }
     };
 

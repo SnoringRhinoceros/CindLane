@@ -9,18 +9,22 @@ function BestPokemonBox({
   activeStatFilter,
   handleStatFilterClick,
   currentPokemon,
+  expectedStats
 }) {
   const pokemonName = bestPokemon.split(" (")[0];
   const pokemonWinRate = bestPokemon.split(" (")[1].slice(0, -1);
 
   const [cardHovered, setCardHovered] = useState(false);
   const [iconHovered, setIconHovered] = useState(false);
+  const [currentIconHovered, setCurrentIconHovered] = useState(false); // ⬅️ New state
 
   const [cardTooltipPos, setCardTooltipPos] = useState({ top: 0, left: 0 });
   const [iconTooltipPos, setIconTooltipPos] = useState({ top: 0, left: 0 });
+  const [currentIconTooltipPos, setCurrentIconTooltipPos] = useState({ top: 0, left: 0 }); // ⬅️ New
 
   const cardRef = useRef(null);
   const iconRef = useRef(null);
+  const currentIconRef = useRef(null); // ⬅️ New ref
 
   useEffect(() => {
     if (cardHovered && cardRef.current) {
@@ -42,10 +46,22 @@ function BestPokemonBox({
     }
   }, [iconHovered]);
 
+  useEffect(() => {
+    if (currentIconHovered && currentIconRef.current) {
+      const rect = currentIconRef.current.getBoundingClientRect();
+      setCurrentIconTooltipPos({
+        top: rect.top + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
+    }
+  }, [currentIconHovered]);
+
   const handleCardEnter = () => setCardHovered(true);
   const handleCardLeave = () => setTimeout(() => setCardHovered(false), 100);
   const handleIconEnter = () => setIconHovered(true);
   const handleIconLeave = () => setTimeout(() => setIconHovered(false), 100);
+  const handleCurrentIconEnter = () => setCurrentIconHovered(true);
+  const handleCurrentIconLeave = () => setTimeout(() => setCurrentIconHovered(false), 100);
 
   const showRecommended = activeStatFilter === "Recommended Pick";
   const showCurrent = activeStatFilter === "Current Pick";
@@ -88,7 +104,21 @@ function BestPokemonBox({
               </svg>
             )}
 
-            {/* Filter Toggle */}
+            {showCurrent && currentPokemon?.gamesWithPokemon === 0 && (
+              <svg
+                ref={currentIconRef}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-5 h-5 text-yellow-500 cursor-pointer absolute left-0 ml-2"
+                onMouseEnter={handleCurrentIconEnter}
+                onMouseLeave={handleCurrentIconLeave}
+                aria-label="Current warning icon"
+              >
+                <path d="M12 2L1 21h22L12 2Zm0 3.5L20.1 19H3.9L12 5.5ZM12 16a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 12 16Zm-1-4h2v-4h-2v4Z" />
+              </svg>
+            )}
+
             <div className="w-full text-center pl-8 rounded">
               <StatFilterCheckbox
                 texts={["Recommended Pick", "Current Pick"]}
@@ -119,7 +149,17 @@ function BestPokemonBox({
             {/* Stats */}
             <div className="text-center mt-4">
               {showRecommended ? (
-                <p className="text-lg font-semibold">{pokemonWinRate}</p>
+                <>
+                  <p className="text-base font-medium">
+                    Win Rate: {pokemonWinRate}
+                  </p>
+                  <p className="text-base font-medium">
+                    Expected Kills: {expectedStats?.kills ?? "?"}
+                  </p>
+                  <p className="text-base font-medium">
+                    Expected Deaths: {expectedStats?.deaths ?? "?"}
+                  </p>
+                </>
               ) : (
                 <>
                   <p className="text-base font-medium">
@@ -134,10 +174,11 @@ function BestPokemonBox({
                 </>
               )}
             </div>
+
           </div>
         </div>
 
-        {/* Tooltips for Recommended */}
+        {/* Tooltip: Recommended Pick hover */}
         {showRecommended && cardHovered && !iconHovered && (
           <TooltipPortal>
             <div
@@ -161,6 +202,7 @@ function BestPokemonBox({
           </TooltipPortal>
         )}
 
+        {/* Tooltip: Recommended warning icon */}
         {showRecommended && iconHovered && (
           <TooltipPortal>
             <div
@@ -174,6 +216,24 @@ function BestPokemonBox({
               }}
             >
               {bestPokemonWarning}
+            </div>
+          </TooltipPortal>
+        )}
+
+        {/* Tooltip: Current warning icon */}
+        {showCurrent && currentPokemon?.gamesWithPokemon === 0 && currentIconHovered && (
+          <TooltipPortal>
+            <div
+              role="tooltip"
+              className="bg-black text-white text-sm rounded px-2 py-1 z-[9999] shadow text-center pointer-events-none"
+              style={{
+                position: "absolute",
+                top: Math.max(currentIconTooltipPos.top - 4, 8),
+                left: currentIconTooltipPos.left + 10,
+                transform: "translate(-50%, -100%)",
+              }}
+            >
+              {"This player has never played this Pokemon so no stats are shown"}
             </div>
           </TooltipPortal>
         )}

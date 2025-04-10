@@ -15,37 +15,30 @@ const PlayerTab = ({ player, pokemon }) => {
       setCurrentStatFilter(stat);
     };
 
-    const {
-      bestPokemon,
-      bestItems,
-      bestPokemonWarning,
-      expectedStats
-    } = useRecommendedPokemonStats(player);
-    
+    const recommended = useRecommendedPokemonStats(player);
   const currentPokemonStats = usePokemonStats(player, pokemon);
-  console.log(pokemon);
   
-      const statsToShow = [
-        {
-          text: "Expected Kills",
-          stat: expectedStats.kills.toString(),
-          description: "Expected number of kills in one game"
-        },
-        {
-          text: "Expected Deaths",
-          stat: expectedStats.deaths.toString(),
-          description: "Expected number of deaths in one game"
-        },
-        {
-          text: "Expected Damage",
-          stat: expectedStats.damage,
-          description: "Expected damage the player is expected to do"
-        },
-        {
-          text: "Expected Healing",
-          stat: expectedStats.healing,
-          description: "Expected healing the player is expected to do"
-        }
+  const statsToShow = [
+    {
+      text: "Expected Kills",
+      stat: recommended.expectedStats.kills.toString(),
+      description: "Expected number of kills in one game"
+    },
+    {
+      text: "Expected Deaths",
+      stat: recommended.expectedStats.deaths.toString(),
+      description: "Expected number of deaths in one game"
+    },
+    {
+      text: "Expected Damage",
+      stat: recommended.expectedStats.damage,
+      description: "Expected damage the player is expected to do"
+    },
+    {
+      text: "Expected Healing",
+      stat: recommended.expectedStats.healing,
+      description: "Expected healing the player is expected to do"
+    }
   ];
   
   const renderLeftColumn = () => {
@@ -74,32 +67,15 @@ const PlayerTab = ({ player, pokemon }) => {
   ) : (
     <div>
       <BestPokemonBox
-        bestPokemon={bestPokemon}
-        heldItems={bestItems}
-        bestPokemonWarning={bestPokemonWarning}
-        activeStatFilter={currentStatFilter}
-        handleStatFilterClick={handleStatFilterClick}
-        showPlaceholder={isCurrent && !pokemon}
-        currentPokemon={currentPokemonStats}          
-      />
+      bestPokemon={recommended.bestPokemon}
+      bestPokemonWarning={recommended.bestPokemonWarning}
+      heldItems={recommended.heldItems} // or recommended.bestItems
+      currentPokemon={currentPokemonStats}
+      activeStatFilter={currentStatFilter}
+      handleStatFilterClick={handleStatFilterClick}
+      expectedStats={recommended.expectedStats}
+    />
       <MiniStatBoxContainer stats={statsToShow} />
-      {/* {performanceInsights && (
-        <div className="mb-4">
-          <strong>{pokemon} Performance:</strong>
-          <ul className="ml-4 list-disc text-sm text-gray-600">
-            <li>
-              Compared to own average: {performanceInsights.personalPerformancePercent}% (
-              {performanceInsights.personalPerformanceDiff >= 0 ? "+" : ""}
-              {performanceInsights.personalPerformanceDiff} dmg)
-            </li>
-            <li>
-              Compared to global: {performanceInsights.globalComparisonPercent}% (
-              {performanceInsights.globalComparisonDiff >= 0 ? "+" : ""}
-              {performanceInsights.globalComparisonDiff} dmg)
-            </li>
-          </ul>
-        </div>
-      )} */}
     </div>
   )}
 </div>

@@ -1,10 +1,11 @@
 import battleData from '../data/battles.json';
 
-export function usePokemonStats(player, pokemon) {
+function getCommonPokemonStats(player, pokemon) {
   const allPlayers = battleData.flatMap(b => b.players);
   const playerGames = allPlayers.filter(p => p.player_name === player.player);
-  const playerGamesWithPokemon = playerGames.filter(p => p.pokemon === pokemon);
-  const globalPokemonGames = allPlayers.filter(p => p.pokemon === pokemon);
+  const playerGamesWithPokemon = pokemon
+    ? playerGames.filter(p => p.pokemon === pokemon)
+    : [];
 
   const avg = (arr, key) =>
     arr.reduce((sum, p) => sum + p[key], 0) / (arr.length || 1);
@@ -15,10 +16,7 @@ export function usePokemonStats(player, pokemon) {
 
     for (const b of battleData) {
       for (const p of b.players) {
-        if (
-          p.player_name === player.player &&
-          p.pokemon === pokemon
-        ) {
+        if (p.player_name === player.player && (!pokemon || p.pokemon === pokemon)) {
           games += 1;
           if (b.result.winner === `Team ${p.team}`) {
             wins += 1;
@@ -31,19 +29,22 @@ export function usePokemonStats(player, pokemon) {
   })();
 
   const pickRate = (() => {
+    if (!pokemon) return null;
     const totalGames = playerGames.length || 1;
     const picked = playerGamesWithPokemon.length;
     return `${Math.round((picked / totalGames) * 100)}%`;
   })();
 
   const avgScore = (() => {
+    if (!pokemon) return null;
     const avgScore = avg(playerGamesWithPokemon, 'score') || 0;
     return Math.round(avgScore).toLocaleString();
   })();
 
   const heldItems = (() => {
     const itemCount = {};
-    playerGamesWithPokemon.forEach(p => {
+    const source = pokemon ? playerGamesWithPokemon : playerGames;
+    source.forEach(p => {
       p.held_items.forEach(item => {
         itemCount[item] = (itemCount[item] || 0) + 1;
       });
@@ -55,16 +56,29 @@ export function usePokemonStats(player, pokemon) {
       .slice(0, 3);
   })();
 
+  const gamesWithPokemon = pokemon ? playerGamesWithPokemon.length : null;
+
   return {
-    name: pokemon,
     winRate,
     pickRate,
     avgScore,
-    heldItems
+    heldItems,
+    gamesWithPokemon
+  };
+}
+
+export function usePokemonStats(player, pokemon) {
+  const stats = getCommonPokemonStats(player, pokemon);
+
+  return {
+    name: pokemon,
+    ...stats
   };
 }
 
 export function useRecommendedPokemonStats(player) {
+  const stats = getCommonPokemonStats(player, null);
+
   const allPlayers = battleData.flatMap(b => b.players);
   const matchingPlayers = allPlayers.filter(p => p.player_name === player.player);
 
@@ -124,22 +138,10 @@ export function useRecommendedPokemonStats(player) {
     }
   }
 
-  const itemCount = {};
-  matchingPlayers.forEach(p => {
-    p.held_items.forEach(item => {
-      itemCount[item] = (itemCount[item] || 0) + 1;
-    });
-  });
-
-  const bestItems = Object.entries(itemCount)
-    .sort((a, b) => b[1] - a[1])
-    .map(entry => entry[0])
-    .slice(0, 3);
-
   return {
+    ...stats,
     bestPokemon,
     bestPokemonWarning,
-    bestItems,
     expectedStats
   };
 }
