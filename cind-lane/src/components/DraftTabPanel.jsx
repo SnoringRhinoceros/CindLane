@@ -11,7 +11,8 @@ function DraftTabPanel({ teamResults, selectedPick }) {
     const renderCenterContent = () => {
         switch (activeTab) {
             case "Player":
-                return <PlayerTab player={teamResults?.[selectedPick]?.player} pokemon={teamResults?.[selectedPick]?.pokemon} />;
+                console.log(teamResults?.[selectedPick]?.heldItems)
+                return <PlayerTab player={teamResults?.[selectedPick]?.player} pokemon={teamResults?.[selectedPick]?.pokemon} heldItems={teamResults?.[selectedPick]?.heldItems}/>;
             case "Team":
                 return <TeamTab teamResults={teamResults} />;
             default:

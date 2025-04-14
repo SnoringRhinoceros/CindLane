@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const TOTAL_PLAYERS_PER_TEAMBOX = 5
 
-export default function TeamBox({ teamResults, selectedPick, setSelectedPick }) {    
+export default function TeamBox({ teamResults, selectedPick, setSelectedPick }) {
     return (
         <div className="flex flex-col h-full w-full justify-between items-center">
             {Array.from({ length: TOTAL_PLAYERS_PER_TEAMBOX }, (_, index) => (
@@ -16,6 +16,7 @@ export default function TeamBox({ teamResults, selectedPick, setSelectedPick }) 
                 isSelected={selectedPick === index}
                 onClick={() => setSelectedPick(index)}
                 warning={teamResults[index] && teamResults[index].player && teamResults[index].pokemon && teamResults[index].player.pokemon && !teamResults[index].player.pokemon.some(poke => poke.name === teamResults[index].pokemon) ? "This player does not have this pokemon in their roster, using average win rate instead" : null}
+                heldItems={teamResults[index] && teamResults[index].heldItems ? teamResults[index].heldItems : []} 
                 />
             ))}
         </div>

@@ -4,27 +4,32 @@ import StatFilterCheckbox from "./StatFilterCheckbox";
 
 function BestPokemonBox({
   bestPokemon,
-  heldItems,
+  recommendedHeldItems,
+  currentHeldItems,
   bestPokemonWarning,
   activeStatFilter,
   handleStatFilterClick,
   currentPokemon,
-  expectedStats
+  expectedStats,
+  fallbackReason,
 }) {
   const pokemonName = bestPokemon.split(" (")[0];
-  const pokemonWinRate = bestPokemon.split(" (")[1].slice(0, -1);
+  const pokemonWinRate = bestPokemon.split(" (")[1]?.slice(0, -1) ?? "N/A";
 
   const [cardHovered, setCardHovered] = useState(false);
   const [iconHovered, setIconHovered] = useState(false);
-  const [currentIconHovered, setCurrentIconHovered] = useState(false); // ⬅️ New state
+  const [currentIconHovered, setCurrentIconHovered] = useState(false);
+  const [fallbackIconHovered, setFallbackIconHovered] = useState(false); // ⬅️ New
 
   const [cardTooltipPos, setCardTooltipPos] = useState({ top: 0, left: 0 });
   const [iconTooltipPos, setIconTooltipPos] = useState({ top: 0, left: 0 });
-  const [currentIconTooltipPos, setCurrentIconTooltipPos] = useState({ top: 0, left: 0 }); // ⬅️ New
+  const [currentIconTooltipPos, setCurrentIconTooltipPos] = useState({ top: 0, left: 0 });
+  const [fallbackIconTooltipPos, setFallbackIconTooltipPos] = useState({ top: 0, left: 0 }); // ⬅️ New
 
   const cardRef = useRef(null);
   const iconRef = useRef(null);
-  const currentIconRef = useRef(null); // ⬅️ New ref
+  const currentIconRef = useRef(null);
+  const fallbackIconRef = useRef(null); // ⬅️ New
 
   useEffect(() => {
     if (cardHovered && cardRef.current) {
@@ -56,12 +61,24 @@ function BestPokemonBox({
     }
   }, [currentIconHovered]);
 
+  useEffect(() => {
+    if (fallbackIconHovered && fallbackIconRef.current) {
+      const rect = fallbackIconRef.current.getBoundingClientRect();
+      setFallbackIconTooltipPos({
+        top: rect.top + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
+    }
+  }, [fallbackIconHovered]);
+
   const handleCardEnter = () => setCardHovered(true);
   const handleCardLeave = () => setTimeout(() => setCardHovered(false), 100);
   const handleIconEnter = () => setIconHovered(true);
   const handleIconLeave = () => setTimeout(() => setIconHovered(false), 100);
   const handleCurrentIconEnter = () => setCurrentIconHovered(true);
   const handleCurrentIconLeave = () => setTimeout(() => setCurrentIconHovered(false), 100);
+  const handleFallbackIconEnter = () => setFallbackIconHovered(true); // ⬅️ New
+  const handleFallbackIconLeave = () => setTimeout(() => setFallbackIconHovered(false), 100); // ⬅️ New
 
   const showRecommended = activeStatFilter === "Recommended Pick";
   const showCurrent = activeStatFilter === "Current Pick";
@@ -75,7 +92,7 @@ function BestPokemonBox({
     .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-")}.png`;
 
-  const items = showRecommended ? heldItems : currentPokemon?.heldItems || [];
+  const items = showRecommended ? recommendedHeldItems : currentHeldItems || [];
 
   return showRecommended || showCurrent ? (
     <div>
@@ -146,52 +163,71 @@ function BestPokemonBox({
               ))}
             </div>
 
-            {/* Stats */}
-            <div className="text-center mt-4">
-              {showRecommended ? (
-                <>
-                  <p className="text-base font-medium">
-                    Win Rate: {pokemonWinRate}
-                  </p>
-                  <p className="text-base font-medium">
-                    Expected Kills: {expectedStats?.kills ?? "?"}
-                  </p>
-                  <p className="text-base font-medium">
-                    Expected Deaths: {expectedStats?.deaths ?? "?"}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="text-base font-medium">
-                    Win Rate: {currentPokemon?.winRate ?? "?"}
-                  </p>
-                  <p className="text-base font-medium">
-                    Pick Rate: {currentPokemon?.pickRate ?? "?"}
-                  </p>
-                  <p className="text-base font-medium">
-                    Avg Score: {currentPokemon?.avgScore ?? "?"}
-                  </p>
-                </>
+            {/* Stats Section with Top-Right Info Icon */}
+            <div className="relative mt-4 px-2">
+
+              {/* Top-Right Info Icon */}
+              {showCurrent && fallbackReason && (
+                <div className="absolute top-0 right-0">
+                  <svg
+                    ref={fallbackIconRef}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-5 h-5 text-blue-500 cursor-pointer"
+                    onMouseEnter={handleFallbackIconEnter}
+                    onMouseLeave={handleFallbackIconLeave}
+                    aria-label="Fallback info icon"
+                  >
+                    <path d="M12 2a10 10 0 1 0 0.001 20.001A10 10 0 0 0 12 2zm0 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm1-4h-2v-5h2v5z" />
+                  </svg>
+                </div>
               )}
+
+              {/* Stats */}
+              <div className="text-center">
+                {showRecommended ? (
+                  <>
+                    <p className="text-base font-medium">
+                      Win Rate: {pokemonWinRate}
+                    </p>
+                    <p className="text-base font-medium">
+                      Expected Kills: {expectedStats?.kills ?? "?"}
+                    </p>
+                    <p className="text-base font-medium">
+                      Expected Deaths: {expectedStats?.deaths ?? "?"}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-base font-medium">
+                      Win Rate: {currentPokemon?.winRate ?? "?"}
+                    </p>
+                    <p className="text-base font-medium">
+                      Pick Rate: {currentPokemon?.pickRate ?? "?"}
+                    </p>
+                    <p className="text-base font-medium">
+                      Avg Score: {currentPokemon?.avgScore ?? "?"}
+                    </p>
+                  </>
+                )}
+              </div>
             </div>
 
           </div>
         </div>
 
-        {/* Tooltip: Recommended Pick hover */}
+        {/* Tooltip: Recommended Card Hover */}
         {showRecommended && cardHovered && !iconHovered && (
           <TooltipPortal>
             <div
               id="card-tooltip"
               role="tooltip"
-              className="bg-black text-white text-sm p-2 rounded-lg shadow-lg text-center z-[9999] pointer-events-none"
+              className="bg-black text-white text-sm p-2 rounded-lg shadow-lg text-center z-[9] pointer-events-none"
               style={{
                 position: "absolute",
                 top: Math.max(cardTooltipPos.top - 8, 8),
-                left: Math.min(
-                  Math.max(cardTooltipPos.left, 12),
-                  window.innerWidth - 12
-                ),
+                left: Math.min(Math.max(cardTooltipPos.left, 12), window.innerWidth - 12),
                 transform: "translate(-50%, -100%)",
                 maxWidth: "90vw",
                 wordWrap: "break-word",
@@ -202,12 +238,12 @@ function BestPokemonBox({
           </TooltipPortal>
         )}
 
-        {/* Tooltip: Recommended warning icon */}
+        {/* Tooltip: Recommended Warning Icon */}
         {showRecommended && iconHovered && (
           <TooltipPortal>
             <div
               role="tooltip"
-              className="bg-black text-white text-sm rounded px-2 py-1 z-[9999] shadow text-center pointer-events-none"
+              className="bg-black text-white text-sm rounded px-2 py-1 z-[9] shadow text-center pointer-events-none"
               style={{
                 position: "absolute",
                 top: Math.max(iconTooltipPos.top - 4, 8),
@@ -220,12 +256,12 @@ function BestPokemonBox({
           </TooltipPortal>
         )}
 
-        {/* Tooltip: Current warning icon */}
+        {/* Tooltip: Current No Games Warning */}
         {showCurrent && currentPokemon?.gamesWithPokemon === 0 && currentIconHovered && (
           <TooltipPortal>
             <div
               role="tooltip"
-              className="bg-black text-white text-sm rounded px-2 py-1 z-[9999] shadow text-center pointer-events-none"
+              className="bg-black text-white text-sm rounded px-2 py-1 z-[9] shadow text-center pointer-events-none"
               style={{
                 position: "absolute",
                 top: Math.max(currentIconTooltipPos.top - 4, 8),
@@ -233,7 +269,27 @@ function BestPokemonBox({
                 transform: "translate(-50%, -100%)",
               }}
             >
-              {"This player has never played this Pokemon so no stats are shown"}
+              This player has never played this Pokémon, so stats are based on others.
+            </div>
+          </TooltipPortal>
+        )}
+
+        {/* Tooltip: Current Fallback Reason */}
+        {showCurrent && fallbackReason && fallbackIconHovered && (
+          <TooltipPortal>
+            <div
+              role="tooltip"
+              className="bg-black text-white text-sm rounded px-2 py-1 z-[9] shadow text-center pointer-events-none"
+              style={{
+                position: "absolute",
+                top: Math.max(fallbackIconTooltipPos.top - 4, 8),
+                left: fallbackIconTooltipPos.left + 10,
+                transform: "translate(-50%, -100%)",
+                maxWidth: "90vw",
+                wordWrap: "break-word",
+              }}
+            >
+              {fallbackReason}
             </div>
           </TooltipPortal>
         )}

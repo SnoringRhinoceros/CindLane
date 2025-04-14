@@ -46,6 +46,35 @@ function Draft() {
         }
     };
 
+    const onSearchHeldItem = (query) => {
+        if (!query.trim()) return;
+    
+        setTeamResults((prevList) => {
+            const newList = [...prevList];
+            const current = newList[selectedPick];
+    
+            if (!current) {
+                newList[selectedPick] = {
+                    heldItems: [query]
+                };
+                return newList;
+            }
+                
+            const currentItems = current.heldItems || [];
+    
+            // Prevent adding duplicates and enforce max of 3 items
+            if (currentItems.includes(query) || currentItems.length >= 3) return newList;
+    
+            newList[selectedPick] = {
+                ...current,
+                heldItems: [...currentItems, query]
+            };
+            console.log(newList)
+            return newList;
+        });
+    };
+    
+
     return (
         <div className="h-full flex-grow flex flex-col bg-gray-100">
             <div className="flex flex-col sm:flex-row flex-grow w-full overflow-hidden">
@@ -65,6 +94,7 @@ function Draft() {
                         <SearchBar
                             onSearchPokemon={onSearchPokemon}
                             onSearchPlayer={onSearchPlayer}
+                            onSearchHeldItem={onSearchHeldItem}
                         />
                     </div>
 
