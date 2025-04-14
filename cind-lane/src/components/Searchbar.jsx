@@ -150,10 +150,11 @@ export default function SearchBar({ onSearchPokemon, onSearchPlayer, onSearchHel
                     onClick={() => handleSelectSuggestion(suggestion)}
                   >
                     <img
-                      src={`/held_item_images/${suggestion.replace(" ", "-")}.png`}
+                      src={`/held_item_images/${suggestion.replace(/\s+/g, "-")}.png`}
                       alt={suggestion}
                       className="w-8 h-8 mr-2 rounded-full"
                     />
+
                     {suggestion}
                   </li>
                 );

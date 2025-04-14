@@ -33,7 +33,7 @@ function PlayerBox({
                 <div key={i} className="w-6 h-6 rounded-full border border-gray-400 overflow-hidden bg-gray-300 flex items-center justify-center mx-0.5">
                     {item ? (
                         <img 
-                            src={`held_item_images/${item.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9\-]/g, '')}.png`} 
+                            src={`held_item_images/${item.replace(/\s+/g, '-')}.png`} 
                             alt={item}
                             className="w-full h-full object-contain"
                         />
