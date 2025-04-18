@@ -7,31 +7,36 @@ export function useTeamStats(teamResults) {
     const validPlayers = teamResults.filter(Boolean);
     const playerWinRatesByPokemon = {};
 
-    // SYNERGY CALCULATION
-    for (let i = 0; i < validPlayers.length; i++) {
-      const p1 = validPlayers[i];
-      const name1 = p1.pokemon;
-      const record1 = p1.player?.pokemon?.find(p => p.name === name1);
-      const win1 = record1?.win_rate ?? p1.player?.win_rate ?? 50;
-      playerWinRatesByPokemon[name1] = win1;
+  // SYNERGY CALCULATION
+  for (let i = 0; i < validPlayers.length; i++) {
+    const p1 = validPlayers[i];
+    const name1 = p1.pokemon;
+    const record1 = p1.player?.pokemon?.find(p => p.name === name1);
+    const win1 = record1?.win_rate ?? p1.player?.win_rate ?? 50;
+    playerWinRatesByPokemon[name1] = win1;
 
-      for (let j = i + 1; j < validPlayers.length; j++) {
-        const p2 = validPlayers[j];
-        const name2 = p2.pokemon;
-        const record2 = p2.player?.pokemon?.find(p => p.name === name2);
-        const win2 = record2?.win_rate ?? p2.player?.win_rate ?? 50;
+    for (let j = i + 1; j < validPlayers.length; j++) {
+      const p2 = validPlayers[j];
+      const name2 = p2.pokemon;
+      const record2 = p2.player?.pokemon?.find(p => p.name === name2);
+      const win2 = record2?.win_rate ?? p2.player?.win_rate ?? 50;
 
-        const synergyScore = (win1 + win2) / 2;
-        const pairKey = [name1, name2].sort().join(" + ");
+      const synergyScore = (win1 + win2) / 2;
+      const pairKey = [name1, name2].sort().join(" + ");
 
-        if (synergyScore >= 55) {
-          synergyPairs.push({
-            pair: pairKey,
-            synergy: synergyScore.toFixed(1) + "%",
-          });
-        }
+      if (synergyScore >= 55) {
+        synergyPairs.push({
+          pair: pairKey,
+          synergy: synergyScore.toFixed(1) + "%",
+          rawSynergy: synergyScore, // Add raw number for sorting
+        });
       }
     }
+  }
+
+  // Sort synergyPairs by raw synergy descending
+  synergyPairs.sort((a, b) => b.rawSynergy - a.rawSynergy);
+
 
     // COUNTER CALCULATION: based on actual battles
     const teamPokemon = validPlayers.map(p => p?.pokemon).filter(Boolean);
@@ -76,11 +81,12 @@ export function useTeamStats(teamResults) {
       .filter(c => parseFloat(c.winRate) >= 55)
       .sort((a, b) => parseFloat(b.winRate) - parseFloat(a.winRate));
 
-    return {
-      synergyPairs,
-      counterPicks,
-      teamWinRates: playerWinRatesByPokemon,
-    };
+      return {
+        synergyPairs: synergyPairs.map(({ pair, synergy }) => ({ pair, synergy })),
+        counterPicks,
+        teamWinRates: playerWinRatesByPokemon,
+      };
+      
   }, [teamResults]);
 
   return teamStats;

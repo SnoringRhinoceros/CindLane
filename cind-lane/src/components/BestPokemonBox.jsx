@@ -35,7 +35,7 @@ function BestPokemonBox({
     if (cardHovered && cardRef.current) {
       const rect = cardRef.current.getBoundingClientRect();
       setCardTooltipPos({
-        top: rect.top + window.scrollY,
+        top: rect.top,
         left: rect.left + rect.width / 2 + window.scrollX,
       });
     }

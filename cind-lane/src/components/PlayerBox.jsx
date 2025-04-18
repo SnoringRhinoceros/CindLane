@@ -28,7 +28,7 @@ function PlayerBox({
 
         for (let i = 0; i < 3; i++) {
             const item = heldItems[i];
-
+            
             itemCircles.push(
                 <div key={i} className="w-6 h-6 rounded-full border border-gray-400 overflow-hidden bg-gray-300 flex items-center justify-center mx-0.5">
                     {item ? (
