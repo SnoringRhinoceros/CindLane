@@ -51,9 +51,8 @@ function PlayerBox({
 
     return (
         <div 
-            className={`relative flex-1 w-full h-full text-primary text-center flex items-center justify-center border-2 
-            ${!isFirst ? "border-t-0" : ""} 
-            ${isSelected ? "bg-blue-500 text-white border-blue-700" : "bg-gray-200 border-gray-400"}`} 
+            className={`relative flex-1 w-full h-full text-primary text-center flex items-center justify-center border-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out mb-2
+            ${isSelected ? "bg-gray-400 text-white border-gray-500" : "bg-gray-200 border-gray-400"}`} 
             onClick={onClick}
         >
             <div className="flex flex-row items-center justify-center">
@@ -72,7 +71,7 @@ function PlayerBox({
                 {/* Player Name & Held Items on the right */}
                 <div className="flex flex-col items-center justify-center ml-2">
                     {renderHeldItems()}
-                    <div className="text-sm font-semibold">
+                    <div className="text-2xl">
                         {playerName ? playerName : placeHolderText}
                     </div>
                 </div>

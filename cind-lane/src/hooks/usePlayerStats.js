@@ -19,32 +19,36 @@ function getCommonPokemonStats(player, pokemon, heldItemsFilter = null) {
 
   // 🌟 Progressive fallback logic
   const MIN_THRESHOLD = 3;
-  let filteredGames = [];
-  let fallbackLevel = "player+pokemon+items";
-  let fallbackReason = null;
+let filteredGames = [];
+let fallbackLevel = "player+pokemon+items";
+let fallbackReason = null;
 
-  if (pokemon) {
-    const specific = heldItemsFilter
-      ? playerGamesWithPokemon.filter(filterHeldItems)
-      : playerGamesWithPokemon;
+if (pokemon) {
+  const specific = heldItemsFilter
+    ? playerGamesWithPokemon.filter(filterHeldItems)
+    : playerGamesWithPokemon;
 
-    if (specific.length >= MIN_THRESHOLD) {
-      filteredGames = specific;
-      fallbackLevel = "player+pokemon+items";
-    } else if (playerGamesWithPokemon.length >= MIN_THRESHOLD) {
-      filteredGames = playerGamesWithPokemon;
-      fallbackLevel = "player+pokemon";
-      fallbackReason = `Not enough games with ${pokemon} and that item set. Using player stats for ${pokemon} instead.`;
-    } else {
-      const global = allPlayers.filter(p => p.pokemon === pokemon);
-      filteredGames = global;
-      fallbackLevel = "global+pokemon";
+  if (specific.length >= MIN_THRESHOLD) {
+    filteredGames = specific;
+    fallbackLevel = "player+pokemon+items";
+  } else if (playerGamesWithPokemon.length >= MIN_THRESHOLD) {
+    filteredGames = playerGamesWithPokemon;
+    fallbackLevel = "player+pokemon";
+    fallbackReason = `Not enough games with ${pokemon} and that item set. Using player stats for ${pokemon} instead.`;
+  } else {
+    const global = allPlayers.filter(p => p.pokemon === pokemon);
+    filteredGames = global;
+    fallbackLevel = "global+pokemon";
+    if (playerGamesWithPokemon.length > 0) {
       fallbackReason = `Not enough games from this player for ${pokemon}. Using stats from all players instead.`;
     }
-  } else {
-    filteredGames = playerGames;
-    fallbackLevel = "player";
+    // No fallbackReason if there are zero games with the Pokémon
   }
+} else {
+  filteredGames = playerGames;
+  fallbackLevel = "player";
+}
+
 
   const avg = (arr, key) =>
     arr.reduce((sum, p) => sum + p[key], 0) / (arr.length || 1);

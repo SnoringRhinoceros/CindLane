@@ -16,30 +16,20 @@ function BestPokemonBox({
   const pokemonName = bestPokemon.split(" (")[0];
   const pokemonWinRate = bestPokemon.split(" (")[1]?.slice(0, -1) ?? "N/A";
 
-  const [cardHovered, setCardHovered] = useState(false);
   const [iconHovered, setIconHovered] = useState(false);
   const [currentIconHovered, setCurrentIconHovered] = useState(false);
-  const [fallbackIconHovered, setFallbackIconHovered] = useState(false); // ⬅️ New
+  const [fallbackIconHovered, setFallbackIconHovered] = useState(false);
+  const [recommendedHovered, setRecommendedHovered] = useState(false);
 
-  const [cardTooltipPos, setCardTooltipPos] = useState({ top: 0, left: 0 });
   const [iconTooltipPos, setIconTooltipPos] = useState({ top: 0, left: 0 });
   const [currentIconTooltipPos, setCurrentIconTooltipPos] = useState({ top: 0, left: 0 });
-  const [fallbackIconTooltipPos, setFallbackIconTooltipPos] = useState({ top: 0, left: 0 }); // ⬅️ New
+  const [fallbackIconTooltipPos, setFallbackIconTooltipPos] = useState({ top: 0, left: 0 });
+  const [recommendedTooltipPos, setRecommendedTooltipPos] = useState({ top: 0, left: 0 });
 
-  const cardRef = useRef(null);
   const iconRef = useRef(null);
   const currentIconRef = useRef(null);
-  const fallbackIconRef = useRef(null); // ⬅️ New
-
-  useEffect(() => {
-    if (cardHovered && cardRef.current) {
-      const rect = cardRef.current.getBoundingClientRect();
-      setCardTooltipPos({
-        top: rect.top,
-        left: rect.left + rect.width / 2 + window.scrollX,
-      });
-    }
-  }, [cardHovered]);
+  const fallbackIconRef = useRef(null);
+  const recommendedRef = useRef(null);
 
   useEffect(() => {
     if (iconHovered && iconRef.current) {
@@ -71,14 +61,22 @@ function BestPokemonBox({
     }
   }, [fallbackIconHovered]);
 
-  const handleCardEnter = () => setCardHovered(true);
-  const handleCardLeave = () => setTimeout(() => setCardHovered(false), 100);
+  useEffect(() => {
+    if (recommendedHovered && recommendedRef.current) {
+      const rect = recommendedRef.current.getBoundingClientRect();
+      setRecommendedTooltipPos({
+        top: rect.top + window.scrollY,
+        left: rect.left + rect.width / 2 + window.scrollX,
+      });
+    }
+  }, [recommendedHovered]);
+
   const handleIconEnter = () => setIconHovered(true);
   const handleIconLeave = () => setTimeout(() => setIconHovered(false), 100);
   const handleCurrentIconEnter = () => setCurrentIconHovered(true);
   const handleCurrentIconLeave = () => setTimeout(() => setCurrentIconHovered(false), 100);
-  const handleFallbackIconEnter = () => setFallbackIconHovered(true); // ⬅️ New
-  const handleFallbackIconLeave = () => setTimeout(() => setFallbackIconHovered(false), 100); // ⬅️ New
+  const handleFallbackIconEnter = () => setFallbackIconHovered(true);
+  const handleFallbackIconLeave = () => setTimeout(() => setFallbackIconHovered(false), 100);
 
   const showRecommended = activeStatFilter === "Recommended Pick";
   const showCurrent = activeStatFilter === "Current Pick";
@@ -98,13 +96,7 @@ function BestPokemonBox({
     <div>
       <div className="relative overflow-visible">
         {/* Card */}
-        <div
-          ref={cardRef}
-          className="relative p-4 bg-white rounded-lg shadow-md hover:bg-gray-100 cursor-pointer h-full w-full max-w-xs mx-auto sm:max-w-sm md:max-w-md"
-          onMouseEnter={handleCardEnter}
-          onMouseLeave={handleCardLeave}
-          aria-describedby="card-tooltip"
-        >
+        <div className="relative p-4 bg-white rounded-lg shadow-md hover:bg-gray-100 cursor-pointer h-full w-full max-w-xs mx-auto sm:max-w-sm md:max-w-md">
           <div className="relative w-full flex items-center">
             {showRecommended && (
               <svg
@@ -137,10 +129,27 @@ function BestPokemonBox({
             )}
 
             <div className="w-full text-center pl-8 rounded">
-              <StatFilterCheckbox
-                texts={["Recommended Pick", "Current Pick"]}
-                handleClick={handleStatFilterClick}
-              />
+              {showRecommended ? (
+                <span
+                  ref={recommendedRef}
+                  onMouseEnter={() => setRecommendedHovered(true)}
+                  onMouseLeave={() => setTimeout(() => setRecommendedHovered(false), 100)}
+                >
+                  <StatFilterCheckbox
+  texts={["Recommended Pick", "Current Pick"]}
+  activeText={activeStatFilter}
+  handleClick={handleStatFilterClick}
+/>
+
+                </span>
+              ) : (
+                <StatFilterCheckbox
+  texts={["Recommended Pick", "Current Pick"]}
+  activeText={activeStatFilter}
+  handleClick={handleStatFilterClick}
+/>
+
+              )}
             </div>
           </div>
 
@@ -163,10 +172,7 @@ function BestPokemonBox({
               ))}
             </div>
 
-            {/* Stats Section with Top-Right Info Icon */}
             <div className="relative mt-4 px-2">
-
-              {/* Top-Right Info Icon */}
               {showCurrent && fallbackReason && (
                 <div className="absolute top-0 right-0">
                   <svg
@@ -184,7 +190,6 @@ function BestPokemonBox({
                 </div>
               )}
 
-              {/* Stats */}
               <div className="text-center">
                 {showRecommended ? (
                   <>
@@ -213,21 +218,20 @@ function BestPokemonBox({
                 )}
               </div>
             </div>
-
           </div>
         </div>
 
-        {/* Tooltip: Recommended Card Hover */}
-        {showRecommended && cardHovered && !iconHovered && (
+        {/* Tooltip for Recommended Button */}
+        {showRecommended && recommendedHovered && (
           <TooltipPortal>
             <div
-              id="card-tooltip"
+              id="recommended-tooltip"
               role="tooltip"
               className="bg-black text-white text-sm p-2 rounded-lg shadow-lg text-center z-[9] pointer-events-none"
               style={{
                 position: "absolute",
-                top: Math.max(cardTooltipPos.top - 8, 8),
-                left: Math.min(Math.max(cardTooltipPos.left, 12), window.innerWidth - 12),
+                top: Math.max(recommendedTooltipPos.top - 8, 8),
+                left: Math.min(Math.max(recommendedTooltipPos.left, 12), window.innerWidth - 12),
                 transform: "translate(-50%, -100%)",
                 maxWidth: "90vw",
                 wordWrap: "break-word",
@@ -269,7 +273,7 @@ function BestPokemonBox({
                 transform: "translate(-50%, -100%)",
               }}
             >
-              This player has never played this Pokémon, so stats are based on others.
+              This player has never played this Pokémon, so no player stats are shown. Team Stats are based on average win rate.
             </div>
           </TooltipPortal>
         )}

@@ -46,7 +46,7 @@ const statsToShow = [
   {
     text: "Expected Healing",
     stat: expectedStatsToUse?.healing ?? "N/A",
-    description: "Expected healing the player is expected to do"
+    description: "Expected healing the player with this Pokemon should do"
   }
 ];
 

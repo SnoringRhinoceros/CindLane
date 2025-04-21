@@ -14,9 +14,9 @@ const Navbar = () => {
           <li>
             <Link to="/draft" className="hover:underline">Draft</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/account" className="hover:underline">Account</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </nav>
