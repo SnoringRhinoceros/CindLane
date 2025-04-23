@@ -1,0 +1,554 @@
+[
+    {
+        "player": "Lark0",
+	"win_rate": 53,
+        "pokemon": [
+            {
+                "name": "Greninja",
+                "battles": 228,
+                "win_rate": 53
+            },
+            {
+                "name": "Machamp",
+                "battles": 205,
+                "win_rate": 57
+            },
+            {
+                "name": "Lucario",
+                "battles": 138,
+                "win_rate": 57
+            },
+            {
+                "name": "Absol",
+                "battles": 129,
+                "win_rate": 57
+            },
+            {
+                "name": "Tsareena",
+                "battles": 119,
+                "win_rate": 65
+            },
+            {
+                "name": "Alolan Ninetales",
+                "battles": 74,
+                "win_rate": 50
+            },
+            {
+                "name": "Talonflame",
+                "battles": 71,
+                "win_rate": 61
+            },
+            {
+                "name": "Hoopa",
+                "battles": 71,
+                "win_rate": 51
+            },
+            {
+                "name": "Crustle",
+                "battles": 66,
+                "win_rate": 47
+            },
+            {
+                "name": "Mr. Mime",
+                "battles": 55,
+                "win_rate": 58
+            },
+            {
+                "name": "Venusaur",
+                "battles": 53,
+                "win_rate": 47
+            },
+            {
+                "name": "Garchomp",
+                "battles": 48,
+                "win_rate": 48
+            },
+            {
+                "name": "Sableye",
+                "battles": 48,
+                "win_rate": 40
+            },
+            {
+                "name": "Greedent",
+                "battles": 45,
+                "win_rate": 58
+            },
+            {
+                "name": "Buzzwole",
+                "battles": 42,
+                "win_rate": 62
+            },
+            {
+                "name": "Delphox",
+                "battles": 41,
+                "win_rate": 56
+            },
+            {
+                "name": "Gengar",
+                "battles": 38,
+                "win_rate": 53
+            },
+            {
+                "name": "Sylveon",
+                "battles": 36,
+                "win_rate": 47
+            },
+            {
+                "name": "Aegislash",
+                "battles": 34,
+                "win_rate": 38
+            },
+            {
+                "name": "Gardevoir",
+                "battles": 33,
+                "win_rate": 58
+            },
+            {
+                "name": "Decidueye",
+                "battles": 28,
+                "win_rate": 43
+            },
+            {
+                "name": "Wigglytuff",
+                "battles": 24,
+                "win_rate": 63
+            },
+            {
+                "name": "Snorlax",
+                "battles": 24,
+                "win_rate": 33
+            },
+            {
+                "name": "Cramorant",
+                "battles": 21,
+                "win_rate": 52
+            },
+            {
+                "name": "Pikachu",
+                "battles": 16,
+                "win_rate": 50
+            },
+            {
+                "name": "Slowbro",
+                "battles": 15,
+                "win_rate": 53
+            },
+            {
+                "name": "Dodrio",
+                "battles": 15,
+                "win_rate": 60
+            },
+            {
+                "name": "Glaceon",
+                "battles": 13,
+                "win_rate": 69
+            },
+            {
+                "name": "Espeon",
+                "battles": 10,
+                "win_rate": 70
+            },
+            {
+                "name": "Eldegoss",
+                "battles": 10,
+                "win_rate": 50
+            },
+            {
+                "name": "Blastoise",
+                "battles": 7,
+                "win_rate": 29
+            },
+            {
+                "name": "Cinderace",
+                "battles": 3,
+                "win_rate": 67
+            },
+            {
+                "name": "Trevenant",
+                "battles": 1,
+                "win_rate": 100
+            },
+            {
+                "name": "Zeraora",
+                "battles": 1,
+                "win_rate": 100
+            },
+            {
+                "name": "Charizard",
+                "battles": 1,
+                "win_rate": 0
+            },
+            {
+                "name": "Mamoswine",
+                "battles": 0,
+                "win_rate": 0
+            },
+            {
+                "name": "Zacian",
+                "battles": 0,
+                "win_rate": 0
+            }
+        ]
+    },
+    {
+        "player": "CrisHeroes",
+	"win_rate": 60,
+        "pokemon": [
+            {
+                "name": "Mr. Mime",
+                "battles": 941,
+                "win_rate": 60
+            },
+            {
+                "name": "Absol",
+                "battles": 896,
+                "win_rate": 66
+            },
+            {
+                "name": "Lucario",
+                "battles": 862,
+                "win_rate": 61
+            },
+            {
+                "name": "Gengar",
+                "battles": 740,
+                "win_rate": 66
+            },
+            {
+                "name": "Venusaur",
+                "battles": 600,
+                "win_rate": 62
+            },
+            {
+                "name": "Delphox",
+                "battles": 589,
+                "win_rate": 63
+            },
+            {
+                "name": "Alolan Ninetales",
+                "battles": 565,
+                "win_rate": 61
+            },
+            {
+                "name": "Inteleon",
+                "battles": 548,
+                "win_rate": 57
+            },
+            {
+                "name": "Greninja",
+                "battles": 541,
+                "win_rate": 65
+            },
+            {
+                "name": "Machamp",
+                "battles": 529,
+                "win_rate": 60
+            },
+            {
+                "name": "Blastoise",
+                "battles": 462,
+                "win_rate": 60
+            },
+            {
+                "name": "Tsareena",
+                "battles": 453,
+                "win_rate": 57
+            },
+            {
+                "name": "Dragonite",
+                "battles": 436,
+                "win_rate": 61
+            },
+            {
+                "name": "Gardevoir",
+                "battles": 425,
+                "win_rate": 61
+            },
+            {
+                "name": "Zoroark",
+                "battles": 416,
+                "win_rate": 54
+            },
+            {
+                "name": "Cinderace",
+                "battles": 410,
+                "win_rate": 63
+            },
+            {
+                "name": "Mew",
+                "battles": 400,
+                "win_rate": 59
+            },
+            {
+                "name": "Dodrio",
+                "battles": 390,
+                "win_rate": 58
+            },
+            {
+                "name": "Sylveon",
+                "battles": 386,
+                "win_rate": 61
+            },
+            {
+                "name": "Buzzwole",
+                "battles": 379,
+                "win_rate": 49
+            },
+            {
+                "name": "Garchomp",
+                "battles": 353,
+                "win_rate": 58
+            },
+            {
+                "name": "Talonflame",
+                "battles": 349,
+                "win_rate": 61
+            },
+            {
+                "name": "Crustle",
+                "battles": 333,
+                "win_rate": 53
+            },
+            {
+                "name": "Pikachu",
+                "battles": 320,
+                "win_rate": 57
+            },
+            {
+                "name": "Urshifu",
+                "battles": 305,
+                "win_rate": 61
+            },
+            {
+                "name": "Greedent",
+                "battles": 298,
+                "win_rate": 63
+            },
+            {
+                "name": "Scizor",
+                "battles": 294,
+                "win_rate": 56
+            },
+            {
+                "name": "Zeraora",
+                "battles": 292,
+                "win_rate": 57
+            },
+            {
+                "name": "Cramorant",
+                "battles": 291,
+                "win_rate": 60
+            },
+            {
+                "name": "Decidueye",
+                "battles": 291,
+                "win_rate": 63
+            },
+            {
+                "name": "Glaceon",
+                "battles": 290,
+                "win_rate": 63
+            },
+            {
+                "name": "Trevenant",
+                "battles": 286,
+                "win_rate": 59
+            },
+            {
+                "name": "Azumarill",
+                "battles": 280,
+                "win_rate": 64
+            },
+            {
+                "name": "Espeon",
+                "battles": 275,
+                "win_rate": 60
+            },
+            {
+                "name": "Aegislash",
+                "battles": 274,
+                "win_rate": 54
+            },
+            {
+                "name": "Leafeon",
+                "battles": 270,
+                "win_rate": 63
+            },
+            {
+                "name": "Charizard",
+                "battles": 269,
+                "win_rate": 60
+            },
+            {
+                "name": "Blaziken",
+                "battles": 269,
+                "win_rate": 63
+            },
+            {
+                "name": "Chandelure",
+                "battles": 247,
+                "win_rate": 61
+            },
+            {
+                "name": "Lapras",
+                "battles": 216,
+                "win_rate": 65
+            },
+            {
+                "name": "Metagross",
+                "battles": 210,
+                "win_rate": 60
+            },
+            {
+                "name": "Snorlax",
+                "battles": 207,
+                "win_rate": 58
+            },
+            {
+                "name": "Gyarados",
+                "battles": 189,
+                "win_rate": 59
+            },
+            {
+                "name": "Tyranitar",
+                "battles": 184,
+                "win_rate": 60
+            },
+            {
+                "name": "Duraludon",
+                "battles": 180,
+                "win_rate": 64
+            },
+            {
+                "name": "Dragapult",
+                "battles": 180,
+                "win_rate": 55
+            },
+            {
+                "name": "Mimikyu",
+                "battles": 180,
+                "win_rate": 58
+            },
+            {
+                "name": "Zacian",
+                "battles": 171,
+                "win_rate": 63
+            },
+            {
+                "name": "Meowscarada",
+                "battles": 168,
+                "win_rate": 62
+            },
+            {
+                "name": "Goodra",
+                "battles": 164,
+                "win_rate": 62
+            },
+            {
+                "name": "Umbreon",
+                "battles": 154,
+                "win_rate": 60
+            },
+            {
+                "name": "Hoopa",
+                "battles": 152,
+                "win_rate": 59
+            },
+            {
+                "name": "Slowbro",
+                "battles": 140,
+                "win_rate": 54
+            },
+            {
+                "name": "Miraidon",
+                "battles": 135,
+                "win_rate": 70
+            },
+            {
+                "name": "Mamoswine",
+                "battles": 128,
+                "win_rate": 50
+            },
+            {
+                "name": "Ceruledge",
+                "battles": 119,
+                "win_rate": 49
+            },
+            {
+                "name": "Mewtwo",
+                "battles": 118,
+                "win_rate": 63
+            },
+            {
+                "name": "Wigglytuff",
+                "battles": 113,
+                "win_rate": 50
+            },
+            {
+                "name": "Tinkaton",
+                "battles": 103,
+                "win_rate": 64
+            },
+            {
+                "name": "Armarouge",
+                "battles": 101,
+                "win_rate": 59
+            },
+            {
+                "name": "Mewtwo",
+                "battles": 92,
+                "win_rate": 67
+            },
+            {
+                "name": "Eldegoss",
+                "battles": 86,
+                "win_rate": 49
+            },
+            {
+                "name": "Clefable",
+                "battles": 85,
+                "win_rate": 47
+            },
+            {
+                "name": "Sableye",
+                "battles": 85,
+                "win_rate": 62
+            },
+            {
+                "name": "Darkrai",
+                "battles": 72,
+                "win_rate": 58
+            },
+            {
+                "name": "Falinks",
+                "battles": 71,
+                "win_rate": 52
+            },
+            {
+                "name": "Blissey",
+                "battles": 63,
+                "win_rate": 56
+            },
+            {
+                "name": "Psyduck",
+                "battles": 56,
+                "win_rate": 61
+            },
+            {
+                "name": "Galarian Rapidash",
+                "battles": 47,
+                "win_rate": 64
+            },
+            {
+                "name": "Ho-Oh",
+                "battles": 40,
+                "win_rate": 65
+            },
+            {
+                "name": "Comfey",
+                "battles": 31,
+                "win_rate": 39
+            }
+        ]
+    }
+]
