@@ -1,6 +1,7 @@
 import MiniStatBox from "./MiniStatBox";
 
 function MiniStatBoxContainer({ stats, maxColumns = 3 }) {
+  console.log(stats)
   return (
     <div
       className="grid gap-4 p-4 place-items-center w-full"

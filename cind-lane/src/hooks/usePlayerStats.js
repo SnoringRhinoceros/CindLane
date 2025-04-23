@@ -1,5 +1,33 @@
 import battleData from '../data/battles.json';
 
+function averageStat(arr, key) {
+  return arr.reduce((sum, p) => sum + p[key], 0) / (arr.length || 1);
+}
+
+function getGlobalPokemonStats(pokemon) {
+  const globalGames = battleData.flatMap(b => b.players).filter(p => p.pokemon === pokemon);
+
+  const total = globalGames.reduce((acc, p) => {
+    acc.kills += p.kills;
+    acc.deaths += p.deaths;
+    acc.dealt += p.damage_dealt;
+    acc.healed += p.damage_healed;
+    acc.score += p.score || 0;
+    return acc;
+  }, { kills: 0, deaths: 0, dealt: 0, healed: 0, score: 0 });
+
+  const count = globalGames.length || 1;
+
+  return {
+    kills: Math.round(total.kills / count),
+    deaths: Math.round(total.deaths / count),
+    damage: Math.round(total.dealt / count),
+    healing: Math.round(total.healed / count),
+    score: Math.round(total.score / count),
+    games: globalGames.length
+  };
+}
+
 function getCommonPokemonStats(player, pokemon, heldItemsFilter = null) {
   const allPlayers = battleData.flatMap(b => b.players);
   const playerGames = allPlayers.filter(p => p.player_name === player.player);
@@ -11,69 +39,56 @@ function getCommonPokemonStats(player, pokemon, heldItemsFilter = null) {
     if (!heldItemsFilter || !Array.isArray(p.held_items)) return true;
     const heldSorted = [...p.held_items].sort();
     const filterSorted = [...heldItemsFilter].sort();
-    return (
-      heldSorted.length === filterSorted.length &&
-      heldSorted.every((val, idx) => val === filterSorted[idx])
-    );
+    return heldSorted.length === filterSorted.length &&
+      heldSorted.every((val, idx) => val === filterSorted[idx]);
   };
 
-  // 🌟 Progressive fallback logic
   const MIN_THRESHOLD = 3;
-let filteredGames = [];
-let fallbackLevel = "player+pokemon+items";
-let fallbackReason = null;
+  let filteredGames = [];
+  let fallbackLevel = "player+pokemon+items";
+  let fallbackReason = null;
 
-if (pokemon) {
-  const specific = heldItemsFilter
-    ? playerGamesWithPokemon.filter(filterHeldItems)
-    : playerGamesWithPokemon;
+  if (pokemon) {
+    const specific = heldItemsFilter
+      ? playerGamesWithPokemon.filter(filterHeldItems)
+      : playerGamesWithPokemon;
 
-  if (specific.length >= MIN_THRESHOLD) {
-    filteredGames = specific;
-    fallbackLevel = "player+pokemon+items";
-  } else if (playerGamesWithPokemon.length >= MIN_THRESHOLD) {
-    filteredGames = playerGamesWithPokemon;
-    fallbackLevel = "player+pokemon";
-    fallbackReason = `Not enough games with ${pokemon} and that item set. Using player stats for ${pokemon} instead.`;
-  } else {
-    const global = allPlayers.filter(p => p.pokemon === pokemon);
-    filteredGames = global;
-    fallbackLevel = "global+pokemon";
-    if (playerGamesWithPokemon.length > 0) {
-      fallbackReason = `Not enough games from this player for ${pokemon}. Using stats from all players instead.`;
+    if (specific.length >= MIN_THRESHOLD) {
+      filteredGames = specific;
+    } else if (playerGamesWithPokemon.length >= MIN_THRESHOLD) {
+      filteredGames = playerGamesWithPokemon;
+      fallbackLevel = "player+pokemon";
+      fallbackReason = `Not enough games with ${pokemon} and that item set. Using all ${pokemon} games from this player.`;
+    } else {
+      filteredGames = allPlayers.filter(p => p.pokemon === pokemon);
+      fallbackLevel = "global+pokemon";
+      if (playerGamesWithPokemon.length > 0) {
+        fallbackReason = `Not enough games from this player for ${pokemon}. Using global stats.`;
+      }
     }
-    // No fallbackReason if there are zero games with the Pokémon
+  } else {
+    filteredGames = playerGames;
+    fallbackLevel = "player";
   }
-} else {
-  filteredGames = playerGames;
-  fallbackLevel = "player";
-}
 
+  const total = filteredGames.reduce((acc, p) => {
+    acc.kills += p.kills;
+    acc.deaths += p.deaths;
+    acc.dealt += p.damage_dealt;
+    acc.healed += p.damage_healed;
+    acc.score += p.score || 0;
+    return acc;
+  }, { kills: 0, deaths: 0, dealt: 0, healed: 0, score: 0 });
 
-  const avg = (arr, key) =>
-    arr.reduce((sum, p) => sum + p[key], 0) / (arr.length || 1);
+  const count = filteredGames.length || 1;
 
-  const expectedStats = (() => {
-    const total = filteredGames.reduce(
-      (acc, p) => {
-        acc.kills += p.kills;
-        acc.deaths += p.deaths;
-        acc.dealt += p.damage_dealt;
-        acc.healed += p.damage_healed;
-        return acc;
-      },
-      { kills: 0, deaths: 0, dealt: 0, healed: 0 }
-    );
-
-    const count = filteredGames.length || 1;
-
-    return {
-      kills: Math.round(total.kills / count),
-      deaths: Math.round(total.deaths / count),
-      damage: Math.round(total.dealt / count).toLocaleString(),
-      healing: Math.round(total.healed / count).toLocaleString()
-    };
-  })();
+  const expectedStats = {
+    kills: Math.round(total.kills / count),
+    deaths: Math.round(total.deaths / count),
+    damage: Math.round(total.dealt / count),
+    healing: Math.round(total.healed / count),
+    score: Math.round(total.score / count),
+  };
 
   const winRate = (() => {
     let wins = 0;
@@ -98,10 +113,8 @@ if (pokemon) {
             p.player_name === player.player);
 
         if (matches) {
-          games += 1;
-          if (b.result.winner === `Team ${p.team}`) {
-            wins += 1;
-          }
+          games++;
+          if (b.result.winner === `Team ${p.team}`) wins++;
         }
       }
     }
@@ -116,24 +129,16 @@ if (pokemon) {
     return `${Math.round((picked / totalGames) * 100)}%`;
   })();
 
-  const avgScore = (() => {
-    if (!pokemon) return null;
-    const avgScore = avg(filteredGames, 'score') || 0;
-    return Math.round(avgScore).toLocaleString();
-  })();
-
   const heldItems = (() => {
     if (!pokemon) return [];
 
     const comboStats = {};
-
     playerGamesWithPokemon.forEach(p => {
       const key = [...p.held_items].sort().join('|');
-
       if (!comboStats[key]) {
         comboStats[key] = { wins: 0, games: 0, items: p.held_items };
       }
-      comboStats[key].games += 1;
+      comboStats[key].games++;
 
       const battle = battleData.find(b =>
         b.players.some(bp =>
@@ -143,10 +148,8 @@ if (pokemon) {
         )
       );
 
-      if (!battle) return;
-
-      if (battle.result.winner === `Team ${p.team}`) {
-        comboStats[key].wins += 1;
+      if (battle?.result.winner === `Team ${p.team}`) {
+        comboStats[key].wins++;
       }
     });
 
@@ -157,27 +160,25 @@ if (pokemon) {
     return bestCombo ? bestCombo.items : [];
   })();
 
-  const gamesWithPokemon = pokemon ? filteredGames.length : null;
-
   return {
+    fallbackReason,
+    expectedStats,
     winRate,
     pickRate,
-    avgScore,
+    avgScore: expectedStats.score.toLocaleString(),
     heldItems,
-    gamesWithPokemon,
-    expectedStats,
-    fallbackReason
+    gamesWithPokemon: pokemon ? filteredGames.length : null
   };
 }
 
-
-
 export function usePokemonStats(player, pokemon, heldItems) {
-  const stats = getCommonPokemonStats(player, pokemon, heldItems);
+  const playerStats = getCommonPokemonStats(player, pokemon, heldItems);
+  const globalStats = pokemon ? getGlobalPokemonStats(pokemon) : null;
 
   return {
     name: pokemon,
-    ...stats
+    playerStats,
+    globalStats
   };
 }
 
@@ -196,9 +197,9 @@ export function useRecommendedPokemonStats(player, pokemon = null) {
       },
       { kills: 0, deaths: 0, dealt: 0, healed: 0 }
     );
-  
+
     const count = matchingPlayers.length || 1;
-  
+
     return {
       kills: Math.round(total.kills / count),
       deaths: Math.round(total.deaths / count),
@@ -206,7 +207,6 @@ export function useRecommendedPokemonStats(player, pokemon = null) {
       healing: Math.round(total.healed / count).toLocaleString()
     };
   })();
-  
 
   let bestPokemon = 'Unknown';
   let bestPokemonWarning = null;
@@ -234,6 +234,8 @@ export function useRecommendedPokemonStats(player, pokemon = null) {
     .sort((a, b) => b.winRate - a.winRate);
 
   let stats = {
+    fallbackReason: null,
+    expectedStats: null,
     winRate: 'N/A',
     pickRate: null,
     avgScore: null,
@@ -249,8 +251,8 @@ export function useRecommendedPokemonStats(player, pokemon = null) {
       bestPokemonWarning = `This pick recommendation might not be accurate because of a small sample size of ${top.games} game${top.games === 1 ? '' : 's'}.`;
     }
 
-    // ✅ Call again with the recommended pokemon
-    stats = getCommonPokemonStats(player, pokemon || top.pokemon);
+    // 🚀 Use getCommonPokemonStats to get full stats for recommended pick
+    stats = getCommonPokemonStats(player, top.pokemon);
   }
 
   return {
@@ -260,4 +262,5 @@ export function useRecommendedPokemonStats(player, pokemon = null) {
     expectedStats
   };
 }
+
 

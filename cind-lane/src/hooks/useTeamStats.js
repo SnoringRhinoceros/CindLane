@@ -11,28 +11,33 @@ export function useTeamStats(teamResults) {
   for (let i = 0; i < validPlayers.length; i++) {
     const p1 = validPlayers[i];
     const name1 = p1.pokemon;
+    if (!name1) continue; // Skip if p1 has no Pokémon
+  
     const record1 = p1.player?.pokemon?.find(p => p.name === name1);
     const win1 = record1?.win_rate ?? p1.player?.win_rate ?? 50;
     playerWinRatesByPokemon[name1] = win1;
-
+  
     for (let j = i + 1; j < validPlayers.length; j++) {
       const p2 = validPlayers[j];
       const name2 = p2.pokemon;
+      if (!name2) continue; // Skip if p2 has no Pokémon
+  
       const record2 = p2.player?.pokemon?.find(p => p.name === name2);
       const win2 = record2?.win_rate ?? p2.player?.win_rate ?? 50;
-
+  
       const synergyScore = (win1 + win2) / 2;
       const pairKey = [name1, name2].sort().join(" + ");
-
+  
       if (synergyScore >= 55) {
         synergyPairs.push({
           pair: pairKey,
           synergy: synergyScore.toFixed(1) + "%",
-          rawSynergy: synergyScore, // Add raw number for sorting
+          rawSynergy: synergyScore,
         });
       }
     }
   }
+  
 
   // Sort synergyPairs by raw synergy descending
   synergyPairs.sort((a, b) => b.rawSynergy - a.rawSynergy);

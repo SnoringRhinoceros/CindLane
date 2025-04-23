@@ -10,9 +10,11 @@ function BestPokemonBox({
   activeStatFilter,
   handleStatFilterClick,
   currentPokemon,
-  expectedStats,
+  pickRate,
+  avgScore,
   fallbackReason,
 }) {
+
   const pokemonName = bestPokemon.split(" (")[0];
   const pokemonWinRate = bestPokemon.split(" (")[1]?.slice(0, -1) ?? "N/A";
 
@@ -197,11 +199,12 @@ function BestPokemonBox({
                       Win Rate: {pokemonWinRate}
                     </p>
                     <p className="text-base font-medium">
-                      Expected Kills: {expectedStats?.kills ?? "?"}
+                      Pick Rate: {pickRate ?? "?"}
                     </p>
                     <p className="text-base font-medium">
-                      Expected Deaths: {expectedStats?.deaths ?? "?"}
+                      Avg Score: {avgScore ?? "?"}
                     </p>
+
                   </>
                 ) : (
                   <>
