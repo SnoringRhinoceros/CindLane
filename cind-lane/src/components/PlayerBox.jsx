@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import TooltipPortal from '../portals/ToolTipPortal';
+import TooltipPortal from '../portals/TooltipPortal';
 
 function PlayerBox({ 
     isFirst, 
