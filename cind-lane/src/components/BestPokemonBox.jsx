@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import TooltipPortal from "../portals/ToolTipPortal";
+import TooltipPortal from "../portals/TooltipPortal";
 import StatFilterCheckbox from "./StatFilterCheckbox";
 
 function BestPokemonBox({
