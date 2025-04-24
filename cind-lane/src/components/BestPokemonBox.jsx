@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import TooltipPortal from "../portals/TooltipPortal";
-import StatFilterCheckbox from "./StatFilterCheckbox";
+import StatFilterCheckBox from "./StatFilterCheckBox";
 
 function BestPokemonBox({
   bestPokemon,
@@ -137,7 +137,7 @@ function BestPokemonBox({
                   onMouseEnter={() => setRecommendedHovered(true)}
                   onMouseLeave={() => setTimeout(() => setRecommendedHovered(false), 100)}
                 >
-                  <StatFilterCheckbox
+                  <StatFilterCheckBox
   texts={["Recommended Pick", "Current Pick"]}
   activeText={activeStatFilter}
   handleClick={handleStatFilterClick}
@@ -145,7 +145,7 @@ function BestPokemonBox({
 
                 </span>
               ) : (
-                <StatFilterCheckbox
+                <StatFilterCheckBox
   texts={["Recommended Pick", "Current Pick"]}
   activeText={activeStatFilter}
   handleClick={handleStatFilterClick}
