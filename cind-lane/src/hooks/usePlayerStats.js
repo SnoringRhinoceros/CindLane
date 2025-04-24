@@ -243,24 +243,29 @@ export function useRecommendedPokemonStats(player, pokemon = null) {
     gamesWithPokemon: null
   };
 
+  let playerStats = null;
+  let globalStats = null;
+
   if (sorted.length > 0) {
     const top = sorted[0];
-    bestPokemon = `${top.pokemon} (${Math.round(top.winRate * 100)}%)`;
+    const recommendedPokemon = top.pokemon;
+    bestPokemon = `${recommendedPokemon} (${Math.round(top.winRate * 100)}%)`;
 
     if (top.games < 5) {
       bestPokemonWarning = `This pick recommendation might not be accurate because of a small sample size of ${top.games} game${top.games === 1 ? '' : 's'}.`;
     }
 
-    // 🚀 Use getCommonPokemonStats to get full stats for recommended pick
-    stats = getCommonPokemonStats(player, top.pokemon);
+    playerStats = getCommonPokemonStats(player, recommendedPokemon);
+    globalStats = getGlobalPokemonStats(recommendedPokemon);
+    stats = playerStats;
   }
 
   return {
     ...stats,
     bestPokemon,
     bestPokemonWarning,
-    expectedStats
+    expectedStats,
+    playerStats,
+    globalStats
   };
 }
-
-
