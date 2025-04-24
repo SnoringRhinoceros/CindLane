@@ -1,4 +1,4 @@
-function StatFilterCheckBox({ texts, activeText, handleClick }) {
+function StatFilterCheckbox({ texts, activeText, handleClick }) {
     const currentIndex = texts.indexOf(activeText);
   
     const handleButtonClick = () => {
@@ -17,5 +17,5 @@ function StatFilterCheckBox({ texts, activeText, handleClick }) {
     );
   }
   
-  export default StatFilterCheckBox;
+  export default StatFilterCheckbox;
   
