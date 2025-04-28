@@ -42,8 +42,6 @@ function DraftTabPanel({ teamResults, selectedPick }) {
             </div>
         </div>
 
-
-            {/* Center Stats Panel */}
             <div className="w-full flex flex-col h-full min-h-0 md:flex-row items-center justify-center p-8 rounded-lg shadow-lg">
                 <div className="text-center flex flex-col min-h-0 w-full h-full">
                     {renderCenterContent()}

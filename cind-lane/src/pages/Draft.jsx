@@ -79,7 +79,6 @@ function Draft() {
         <div className="h-full flex-grow flex flex-col bg-gray-100">
             <div className="flex flex-col sm:flex-row flex-grow w-full overflow-hidden">
                 
-                {/* TeamBox Section */}
                 <div className="w-full md:w-1/4 bg-white p-4 shadow-md">
                     <TeamBox
                         teamResults={teamResults}
@@ -88,7 +87,6 @@ function Draft() {
                     />
                 </div>
 
-                {/* Main Content */}
                 <div className="flex flex-col flex-grow w-full">
                     <div className="p-4 bg-white shadow-md z-10">
                         <SearchBar

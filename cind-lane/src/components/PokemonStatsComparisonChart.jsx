@@ -70,20 +70,17 @@ export default function PokemonStatsComparisonChart({ playerStats, globalStats }
             isFront
             ifOverflow="extendDomain"
           />
-          {/* Custom Global Avg Label */}
           <text x="100%" y="30" textAnchor="end" fill="gray" fontSize={12}>
             ← Global Avg (100%)
           </text>
 
           <Bar dataKey="Player" name="Performance" isAnimationActive={false} radius={[5, 5, 0, 0]}>
-            {/* Color code the bars */}
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={entry.Player >= 100 ? '#4caf50' : '#f44336'}
               />
             ))}
-            {/* Top labels */}
             <LabelList
               dataKey="Player"
               position="top"
